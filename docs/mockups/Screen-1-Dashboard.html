@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen 1 - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .phone-frame {
+            width: 393px;
+            height: 852px;
+            background: #FFFFFF;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 60px 16px 16px;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            background: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            z-index: 100;
+        }
+
+        .time { font-weight: 600; }
+        .status-icons { display: flex; gap: 4px; }
+
+        /* Calendar Section */
+        .calendar-section {
+            margin-bottom: 24px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 0 8px;
+        }
+
+        .month-year {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .nav-arrow {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .nav-arrow:hover {
+            background: #F5F5F5;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .day-name {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #757575;
+            padding: 8px 0;
+        }
+
+        .day-cell {
+            aspect-ratio: 1;
+            border: 1px solid #E0E0E0;
+            border-radius: 4px;
+            padding: 4px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #FFFFFF;
+        }
+
+        .day-cell:hover {
+            border-color: #2196F3;
+            transform: scale(0.95);
+        }
+
+        .day-cell.current-day {
+            background: rgba(255, 193, 7, 0.2);
+            border: 2px solid #FFC107;
+        }
+
+        .day-cell.empty {
+            background: transparent;
+            border: none;
+            cursor: default;
+        }
+
+        .day-number {
+            font-size: 14px;
+            font-weight: 400;
+            color: #212121;
+        }
+
+        .day-stats {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            right: 2px;
+            font-size: 9px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .task-stats.complete { color: #4CAF50; }
+        .task-stats.partial { color: #757575; }
+        .task-stats.none { color: #F44336; }
+        
+        .progress-rating {
+            color: #FF4081;
+            font-size: 9px;
+        }
+
+        /* Pie Chart Section */
+        .chart-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .pie-chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .pie-chart {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            position: relative;
+            background: conic-gradient(
+                #4CAF50 0deg 216deg,
+                #E0E0E0 216deg 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pie-chart::before {
+            content: '';
+            width: 100px;
+            height: 100px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .pie-chart-text {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .pie-chart-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .pie-chart-label {
+            font-size: 12px;
+            color: #757575;
+        }
+
+        /* Progress Chart Section */
+        .progress-chart-container {
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #E0E0E0;
+        }
+
+        .line-chart {
+            width: 100%;
+            height: 160px;
+            position: relative;
+        }
+
+        .chart-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-annotation {
+            font-size: 12px;
+            color: #F44336;
+            margin-top: 8px;
+            text-align: center;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📡</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <div class="screen">
+            <!-- Calendar Section -->
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <div class="nav-arrow">‹</div>
+                    <div class="month-year">February 2026</div>
+                    <div class="nav-arrow">›</div>
+                </div>
+
+                <div class="calendar-grid">
+                    <!-- Day Names -->
+                    <div class="day-name">Sun</div>
+                    <div class="day-name">Mon</div>
+                    <div class="day-name">Tue</div>
+                    <div class="day-name">Wed</div>
+                    <div class="day-name">Thu</div>
+                    <div class="day-name">Fri</div>
+                    <div class="day-name">Sat</div>
+
+                    <!-- Week 1 -->
+                    <div class="day-cell current-day" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">1</div>
+                        <div class="day-stats">
+                            <div class="task-stats complete">5/5</div>
+                            <div class="progress-rating">8</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">2</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">3/8</div>
+                            <div class="progress-rating">5</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">3</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">6/10</div>
+                            <div class="progress-rating">7</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">4</div>
+                        <div class="day-stats">
+                            <div class="task-stats complete">7/7</div>
+                            <div class="progress-rating">9</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">5</div>
+                        <div class="day-stats">
+                            <div class="task-stats none">0/5</div>
+                            <div class="progress-rating">3</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">6</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">4/9</div>
+                            <div class="progress-rating">6</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">7</div>
+                        <div class="day-stats">
+                            <div class="task-stats complete">3/3</div>
+                            <div class="progress-rating">8</div>
+                        </div>
+                    </div>
+
+                    <!-- Week 2 -->
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">8</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">5/8</div>
+                            <div class="progress-rating">6</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">9</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">2/6</div>
+                            <div class="progress-rating">4</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">10</div>
+                        <div class="day-stats">
+                            <div class="task-stats complete">4/4</div>
+                            <div class="progress-rating">9</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">11</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">7/10</div>
+                            <div class="progress-rating">7</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">12</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">3/7</div>
+                            <div class="progress-rating">5</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">13</div>
+                        <div class="day-stats">
+                            <div class="task-stats complete">6/6</div>
+                            <div class="progress-rating">10</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">14</div>
+                        <div class="day-stats">
+                            <div class="task-stats none">0/4</div>
+                            <div class="progress-rating">2</div>
+                        </div>
+                    </div>
+
+                    <!-- Week 3 -->
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">15</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">5/9</div>
+                            <div class="progress-rating">6</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">16</div>
+                        <div class="day-stats">
+                            <div class="task-stats complete">8/8</div>
+                            <div class="progress-rating">9</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">17</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">4/7</div>
+                            <div class="progress-rating">5</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">18</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">6/10</div>
+                            <div class="progress-rating">7</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">19</div>
+                        <div class="day-stats">
+                            <div class="task-stats complete">5/5</div>
+                            <div class="progress-rating">8</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">20</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">3/8</div>
+                            <div class="progress-rating">4</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">21</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">7/11</div>
+                            <div class="progress-rating">6</div>
+                        </div>
+                    </div>
+
+                    <!-- Week 4 -->
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">22</div>
+                        <div class="day-stats">
+                            <div class="task-stats complete">4/4</div>
+                            <div class="progress-rating">8</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">23</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">5/9</div>
+                            <div class="progress-rating">6</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">24</div>
+                        <div class="day-stats">
+                            <div class="task-stats none">0/6</div>
+                            <div class="progress-rating">1</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">25</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">8/12</div>
+                            <div class="progress-rating">7</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">26</div>
+                        <div class="day-stats">
+                            <div class="task-stats complete">9/9</div>
+                            <div class="progress-rating">10</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">27</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">6/10</div>
+                            <div class="progress-rating">5</div>
+                        </div>
+                    </div>
+                    <div class="day-cell" onclick="window.location.href='Screen-2-Tasks.html'">
+                        <div class="day-number">28</div>
+                        <div class="day-stats">
+                            <div class="task-stats partial">4/7</div>
+                            <div class="progress-rating">6</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pie Chart Section -->
+            <div class="chart-section">
+                <div class="section-title">Task Completion</div>
+                <div class="pie-chart-container">
+                    <div class="pie-chart">
+                        <div class="pie-chart-text">
+                            <div class="pie-chart-value">5/5</div>
+                            <div class="pie-chart-label">tasks</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Chart Section -->
+            <div class="chart-section">
+                <div class="section-title">Progress Myself</div>
+                <div class="progress-chart-container">
+                    <div class="line-chart">
+                        <canvas id="progressChart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-annotation">Mark up to 10</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Draw line chart
+        const canvas = document.getElementById('progressChart');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        canvas.width = canvas.offsetWidth * 2;
+        canvas.height = canvas.offsetHeight * 2;
+        ctx.scale(2, 2);
+        
+        const width = canvas.offsetWidth;
+        const height = canvas.offsetHeight;
+        const padding = 30;
+        
+        // Sample data (0-10 scale for last 10 days)
+        const data = [3, 5, 4, 7, 6, 8, 7, 9, 8, 6];
+        const maxValue = 10;
+        
+        // Draw grid
+        ctx.strokeStyle = '#E0E0E0';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        for (let i = 0; i <= 5; i++) {
+            const y = padding + (height - 2 * padding) * (i / 5);
+            ctx.beginPath();
+            ctx.moveTo(padding, y);
+            ctx.lineTo(width - padding, y);
+            ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        
+        // Draw Y-axis labels (red as in sketch)
+        ctx.fillStyle = '#F44336';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+            const y = padding + (height - 2 * padding) * (i / 5);
+            const value = maxValue - (i * 2);
+            ctx.fillText(value.toString(), padding - 5, y + 4);
+        }
+        
+        // Draw X-axis labels
+        ctx.fillStyle = '#757575';
+        ctx.textAlign = 'center';
+        for (let i = 0; i < data.length; i++) {
+            const x = padding + (width - 2 * padding) * (i / (data.length - 1));
+            ctx.fillText(i.toString(), x, height - 5);
+        }
+        
+        // Draw area fill
+        ctx.beginPath();
+        ctx.moveTo(padding, height - padding);
+        for (let i = 0; i < data.length; i++) {
+            const x = padding + (width - 2 * padding) * (i / (data.length - 1));
+            const y = height - padding - (height - 2 * padding) * (data[i] / maxValue);
+            if (i === 0) ctx.lineTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.lineTo(width - padding, height - padding);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(33, 150, 243, 0.2)';
+        ctx.fill();
+        
+        // Draw line
+        ctx.beginPath();
+        for (let i = 0; i < data.length; i++) {
+            const x = padding + (width - 2 * padding) * (i / (data.length - 1));
+            const y = height - padding - (height - 2 * padding) * (data[i] / maxValue);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = '#2196F3';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Draw data points
+        ctx.fillStyle = '#2196F3';
+        for (let i = 0; i < data.length; i++) {
+            const x = padding + (width - 2 * padding) * (i / (data.length - 1));
+            const y = height - padding - (height - 2 * padding) * (data[i] / maxValue);
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    </script>
+</body>
+</html>
+
