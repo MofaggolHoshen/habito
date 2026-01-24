@@ -416,3 +416,89 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+# ============================================
+# React Native & Node.js specific
+# ============================================
+node_modules/
+npm-debug.log
+yarn-error.log
+.yarn/cache
+.yarn/install-state.gz
+
+# ============================================
+# Android specific
+# ============================================
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+android/gradlew.properties
+*.apk
+*.aar
+*.jks
+android/app/debug.keystore
+
+# ============================================
+# iOS specific
+# ============================================
+ios/Pods/
+ios/Podfile.lock
+ios/build/
+ios/.xcode.env
+ios/.xcode.env.local
+*.xcworkspace/
+ios/Gemfile.lock
+*.ipa
+*.xcarchive
+DerivedData/
+
+# ============================================
+# Build outputs
+# ============================================
+build/
+dist/
+.gradle/
+
+# ============================================
+# IDE & Editor files
+# ============================================
+.idea/
+.DS_Store
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# ============================================
+# Environment & secrets
+# ============================================
+.env
+.env.local
+.env.*.local
+.env.production.local
+*.pem
+*.key
+
+# ============================================
+# Testing & coverage
+# ============================================
+coverage/
+.nyc_output/
+*.lcov
+
+# ============================================
+# Misc
+# ============================================
+.prettiercache
+.eslintcache
+*.bak
+*.swp
+*.swo
+debug.log
+lerna-debug.log
+*-error.log
