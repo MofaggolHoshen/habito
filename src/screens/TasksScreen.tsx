@@ -3,14 +3,13 @@
  * Shows tasks for a selected date with rating slider
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  FlatList,
   SectionList,
   SectionListData,
 } from 'react-native';
@@ -19,18 +18,22 @@ import { TasksScreenProps } from '../navigation/types';
 import { Task } from '../types/Task';
 import { useTasks } from '../context/TasksContext';
 import { useRatings } from '../context/RatingsContext';
-import { formatFullDate, formatTaskCount, getEmojiForRating } from '../utils';
+import { formatFullDate, getEmojiForRating } from '../utils';
 
 const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
   const { date } = route.params;
-  const { state: tasksState, getTasksByDate, toggleTask } = useTasks();
-  const { state: ratingsState, getRating, setRating } = useRatings();
+  const { state: tasksState, getTasksByDate, setSelectedDate, toggleTask, deleteTask } = useTasks();
+  const { getRating, setRating } = useRatings();
 
   const dateString = date || '';
-  const tasks = getTasksByDate(dateString);
-  const rating = getRating(dateString) || 5;
-  const [sliderValue, setSliderValue] = useState(rating);
+  const [sliderValue, setSliderValue] = useState(getRating(dateString) || 5);
 
+  // Update selected date when screen loads
+  useEffect(() => {
+    setSelectedDate(dateString);
+  }, [dateString, setSelectedDate]);
+
+  const tasks = getTasksByDate(dateString);
   const pendingTasks = tasks.filter((t) => !t.isCompleted);
   const completedTasks = tasks.filter((t) => t.isCompleted);
 
@@ -47,13 +50,29 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
     },
   ];
 
-  const handleSliderChange = (value: number) => {
+  const handleSliderChange = async (value: number) => {
     setSliderValue(value);
-    setRating(dateString, value);
+    try {
+      await setRating(dateString, value);
+    } catch (error) {
+      console.error('Failed to save rating:', error);
+    }
   };
 
-  const handleTaskToggle = (taskId: string) => {
-    toggleTask(taskId);
+  const handleTaskToggle = async (taskId: string) => {
+    try {
+      await toggleTask(taskId);
+    } catch (error) {
+      console.error('Failed to toggle task:', error);
+    }
+  };
+
+  const handleTaskDelete = async (taskId: string) => {
+    try {
+      await deleteTask(taskId);
+    } catch (error) {
+      console.error('Failed to delete task:', error);
+    }
   };
 
   const renderTaskItem = ({ item }: { item: Task }) => (

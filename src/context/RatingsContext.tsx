@@ -1,11 +1,12 @@
 /**
  * Ratings Context
- * Manages daily rating state
+ * Manages daily rating state with database integration
  */
 
 import React, { createContext, useReducer, ReactNode, useCallback } from 'react';
 import { DailyRating } from '../types/DailyRating';
 import { v4 as uuid } from 'uuid';
+import * as db from '../services/database';
 
 export interface RatingsState {
   ratings: DailyRating[];
@@ -68,11 +69,12 @@ const ratingsReducer = (state: RatingsState, action: RatingsAction): RatingsStat
 
 export interface RatingsContextType {
   state: RatingsState;
-  setRating: (date: string, rating: number) => void;
-  updateRating: (date: string, rating: number) => void;
-  deleteRating: (date: string) => void;
+  setRating: (date: string, rating: number) => Promise<void>;
+  updateRating: (date: string, rating: number) => Promise<void>;
+  deleteRating: (date: string) => Promise<void>;
   getRating: (date: string) => number | null;
   getLastNDaysRatings: (days: number) => number[];
+  loadRatingsForMonth: (month: number, year: number) => Promise<void>;
   setRatings: (ratings: DailyRating[]) => void;
 }
 
@@ -85,31 +87,59 @@ export interface RatingsProviderProps {
 export const RatingsProvider: React.FC<RatingsProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(ratingsReducer, initialState);
 
-  const setRating = useCallback((date: string, rating: number) => {
-    const existing = state.ratings.find((r) => r.date === date);
-    const newRating: DailyRating = {
-      id: existing?.id || uuid().toString().substring(0, 8),
-      date,
-      rating,
-      createdAt: existing?.createdAt || new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+  const loadRatingsForMonth = useCallback(async (month: number, year: number) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const ratings = await db.getRatingsForMonth(month, year);
+      dispatch({ type: 'SET_RATINGS', payload: ratings });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Failed to load ratings';
+      console.error('[Context] Error loading ratings:', errorMsg);
+      dispatch({ type: 'SET_ERROR', payload: errorMsg });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  }, []);
 
-    if (existing) {
-      dispatch({ type: 'UPDATE_RATING', payload: newRating });
-    } else {
-      dispatch({ type: 'ADD_RATING', payload: newRating });
+  const setRating = useCallback(async (date: string, rating: number) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const dbRating = await db.setRating(date, rating);
+      const existing = state.ratings.find((r) => r.date === date);
+      if (existing) {
+        dispatch({ type: 'UPDATE_RATING', payload: dbRating });
+      } else {
+        dispatch({ type: 'ADD_RATING', payload: dbRating });
+      }
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Failed to save rating';
+      console.error('[Context] Error setting rating:', errorMsg);
+      dispatch({ type: 'SET_ERROR', payload: errorMsg });
+      throw error;
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
     }
   }, [state.ratings]);
 
-  const updateRating = useCallback((date: string, rating: number) => {
-    setRating(date, rating);
+  const updateRating = useCallback(async (date: string, rating: number) => {
+    await setRating(date, rating);
   }, [setRating]);
 
-  const deleteRating = useCallback((date: string) => {
-    const rating = state.ratings.find((r) => r.date === date);
-    if (rating) {
-      dispatch({ type: 'DELETE_RATING', payload: rating.id });
+  const deleteRating = useCallback(async (date: string) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      await db.deleteRating(date);
+      const rating = state.ratings.find((r) => r.date === date);
+      if (rating) {
+        dispatch({ type: 'DELETE_RATING', payload: rating.id });
+      }
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Failed to delete rating';
+      console.error('[Context] Error deleting rating:', errorMsg);
+      dispatch({ type: 'SET_ERROR', payload: errorMsg });
+      throw error;
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
     }
   }, [state.ratings]);
 
@@ -153,6 +183,7 @@ export const RatingsProvider: React.FC<RatingsProviderProps> = ({ children }) =>
     deleteRating,
     getRating,
     getLastNDaysRatings,
+    loadRatingsForMonth,
     setRatings,
   };
 

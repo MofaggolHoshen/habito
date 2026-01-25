@@ -1,9 +1,9 @@
 /**
  * Dashboard Screen
- * Shows calendar view and charts
+ * Shows calendar view with real task data
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -15,13 +15,20 @@ import {
 import { Theme } from '../styles/theme';
 import { DashboardScreenProps } from '../navigation/types';
 import { useCalendar } from '../context/CalendarContext';
-import { formatMonthYear, getMonthDays, getDayOfWeek, isToday, formatDate } from '../utils';
+import { useTasks } from '../context/TasksContext';
+import { formatMonthYear, getMonthDays, getDayOfWeek, isToday } from '../utils';
 
 const { width } = Dimensions.get('window');
 const CALENDAR_CELL_SIZE = (width - 48) / 7;
 
 const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
   const { state, nextMonth, previousMonth } = useCalendar();
+  const { state: tasksState, loadTasksForMonth, getTasksByDate } = useTasks();
+
+  // Load tasks when month changes
+  useEffect(() => {
+    loadTasksForMonth(state.currentMonth, state.currentYear);
+  }, [state.currentMonth, state.currentYear]);
 
   const monthDays = getMonthDays(state.currentMonth, state.currentYear);
   const firstDayOfWeek = getDayOfWeek(new Date(state.currentYear, state.currentMonth, 1));
@@ -37,6 +44,16 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
       state.currentMonth + 1
     ).padStart(2, '0')}.${state.currentYear}`;
     navigation.navigate('Tasks', { date: dateStr });
+  };
+
+  const getDayStats = (day: number) => {
+    const dateStr = `${String(day).padStart(2, '0')}.${String(
+      state.currentMonth + 1
+    ).padStart(2, '0')}.${state.currentYear}`;
+    const dayTasks = getTasksByDate(dateStr);
+    const completed = dayTasks.filter((t) => t.isCompleted).length;
+    const total = dayTasks.length;
+    return { completed, total };
   };
 
   return (
@@ -93,6 +110,10 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
                   : null;
 
               const isTodayDate = day !== null && isToday(dateStr!);
+              const { completed, total } = day !== null ? getDayStats(day) : { completed: 0, total: 0 };
+              const completionColor = total === 0 ? Theme.colors.neutral.gray400 : 
+                completed === total ? Theme.colors.success.main : 
+                Theme.colors.neutral.gray300;
 
               return (
                 <TouchableOpacity
@@ -111,8 +132,8 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
                     <>
                       <Text style={styles.dayNumber}>{day}</Text>
                       <View style={styles.dayStats}>
-                        <Text style={[styles.taskStat, styles.completeStat]}>
-                          0/0
+                        <Text style={[styles.taskStat, { color: completionColor }]}>
+                          {completed}/{total}
                         </Text>
                         <Text style={styles.ratingStat}>-</Text>
                       </View>

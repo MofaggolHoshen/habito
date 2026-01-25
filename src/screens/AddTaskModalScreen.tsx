@@ -50,18 +50,22 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
     setAddedTasks(addedTasks.filter((_, i) => i !== index));
   };
 
-  const handleSaveTasks = () => {
+  const handleSaveTasks = async () => {
     if (addedTasks.length === 0) {
       setError('Add at least one task');
       return;
     }
 
-    // Add all tasks
-    addedTasks.forEach((task) => {
-      addTask(task.description, task.time, date);
-    });
-
-    navigation.goBack();
+    try {
+      // Add all tasks to database
+      for (const task of addedTasks) {
+        await addTask(task.description, task.time, date);
+      }
+      navigation.goBack();
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to save tasks';
+      setError(errorMsg);
+    }
   };
 
   const handleClose = () => {

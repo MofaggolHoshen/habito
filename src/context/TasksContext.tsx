@@ -1,12 +1,13 @@
 /**
  * Tasks Context with Reducer
- * Manages task state and operations
+ * Manages task state and operations with database integration
  */
 
-import React, { createContext, useReducer, ReactNode, useCallback } from 'react';
+import React, { createContext, useReducer, ReactNode, useCallback, useEffect } from 'react';
 import { Task } from '../types/Task';
 import { getCurrentDate } from '../utils/dateHelpers';
 import { v4 as uuid } from 'uuid';
+import * as db from '../services/database';
 
 export interface TasksState {
   tasks: Task[];
@@ -93,11 +94,13 @@ const tasksReducer = (state: TasksState, action: TasksAction): TasksState => {
 
 export interface TasksContextType {
   state: TasksState;
-  addTask: (description: string, time?: string, date?: string) => void;
-  updateTask: (id: string, updates: Partial<Task>) => void;
-  deleteTask: (id: string) => void;
-  toggleTask: (id: string) => void;
+  addTask: (description: string, time?: string, date?: string) => Promise<void>;
+  updateTask: (id: string, updates: Partial<Task>) => Promise<void>;
+  deleteTask: (id: string) => Promise<void>;
+  toggleTask: (id: string) => Promise<void>;
   setSelectedDate: (date: string) => void;
+  loadTasksForDate: (date: string) => Promise<void>;
+  loadTasksForMonth: (month: number, year: number) => Promise<void>;
   getTasksByDate: (date: string) => Task[];
   setTasks: (tasks: Task[]) => void;
 }
@@ -111,37 +114,108 @@ export interface TasksProviderProps {
 export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(tasksReducer, initialState);
 
+  // Load tasks for selected date when it changes
+  useEffect(() => {
+    loadTasksForDate(state.selectedDate);
+  }, [state.selectedDate]);
+
+  const loadTasksForDate = useCallback(async (date: string) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const tasks = await db.getTasksByDate(date);
+      dispatch({ type: 'SET_TASKS', payload: tasks });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Failed to load tasks';
+      console.error('[Context] Error loading tasks:', errorMsg);
+      dispatch({ type: 'SET_ERROR', payload: errorMsg });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  }, []);
+
+  const loadTasksForMonth = useCallback(async (month: number, year: number) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const tasks = await db.getTasksByMonth(month, year);
+      dispatch({ type: 'SET_TASKS', payload: tasks });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Failed to load tasks';
+      console.error('[Context] Error loading month tasks:', errorMsg);
+      dispatch({ type: 'SET_ERROR', payload: errorMsg });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  }, []);
+
   const addTask = useCallback(
-    (description: string, time?: string, date?: string) => {
-      const newTask: Task = {
-        id: uuid().toString().substring(0, 8),
-        date: date || state.selectedDate,
-        description,
-        time,
-        isCompleted: false,
-        createdAt: new Date().toISOString(),
-      };
-      dispatch({ type: 'ADD_TASK', payload: newTask });
+    async (description: string, time?: string, date?: string) => {
+      try {
+        dispatch({ type: 'SET_LOADING', payload: true });
+        const newTask: Task = {
+          id: uuid(),
+          date: date || state.selectedDate,
+          description,
+          time,
+          isCompleted: false,
+          createdAt: new Date().toISOString(),
+        };
+        const createdTask = await db.createTask(newTask);
+        dispatch({ type: 'ADD_TASK', payload: createdTask });
+      } catch (error) {
+        const errorMsg = error instanceof Error ? error.message : 'Failed to create task';
+        console.error('[Context] Error adding task:', errorMsg);
+        dispatch({ type: 'SET_ERROR', payload: errorMsg });
+        throw error;
+      } finally {
+        dispatch({ type: 'SET_LOADING', payload: false });
+      }
     },
     [state.selectedDate]
   );
 
-  const updateTask = useCallback((id: string, updates: Partial<Task>) => {
-    const task = state.tasks.find((t) => t.id === id);
-    if (task) {
-      dispatch({
-        type: 'UPDATE_TASK',
-        payload: { ...task, ...updates },
-      });
+  const updateTask = useCallback(async (id: string, updates: Partial<Task>) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const updatedTask = await db.updateTask(id, updates);
+      dispatch({ type: 'UPDATE_TASK', payload: updatedTask });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Failed to update task';
+      console.error('[Context] Error updating task:', errorMsg);
+      dispatch({ type: 'SET_ERROR', payload: errorMsg });
+      throw error;
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, [state.tasks]);
-
-  const deleteTask = useCallback((id: string) => {
-    dispatch({ type: 'DELETE_TASK', payload: id });
   }, []);
 
-  const toggleTask = useCallback((id: string) => {
-    dispatch({ type: 'TOGGLE_TASK', payload: id });
+  const deleteTask = useCallback(async (id: string) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      await db.deleteTask(id);
+      dispatch({ type: 'DELETE_TASK', payload: id });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Failed to delete task';
+      console.error('[Context] Error deleting task:', errorMsg);
+      dispatch({ type: 'SET_ERROR', payload: errorMsg });
+      throw error;
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  }, []);
+
+  const toggleTask = useCallback(async (id: string) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const updatedTask = await db.toggleTaskComplete(id);
+      dispatch({ type: 'UPDATE_TASK', payload: updatedTask });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Failed to toggle task';
+      console.error('[Context] Error toggling task:', errorMsg);
+      dispatch({ type: 'SET_ERROR', payload: errorMsg });
+      throw error;
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
   }, []);
 
   const setSelectedDate = useCallback((date: string) => {
@@ -166,6 +240,8 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
     deleteTask,
     toggleTask,
     setSelectedDate,
+    loadTasksForDate,
+    loadTasksForMonth,
     getTasksByDate,
     setTasks,
   };
