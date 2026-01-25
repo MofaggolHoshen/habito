@@ -9,9 +9,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { RootStackParamList } from './types';
 
-import DashboardScreen from '@/screens/DashboardScreen';
-import TasksScreen from '@/screens/TasksScreen';
-import AddTaskModalScreen from '@/screens/AddTaskModalScreen';
+import DashboardScreen from '../screens/DashboardScreen';
+import TasksScreen from '../screens/TasksScreen';
+import AddTaskModalScreen from '../screens/AddTaskModalScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

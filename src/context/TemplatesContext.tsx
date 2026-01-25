@@ -4,8 +4,8 @@
  */
 
 import React, { createContext, useState, ReactNode, useCallback } from 'react';
-import { Template } from '@/types/Template';
-import { DEFAULT_TEMPLATES } from '@/utils/constants';
+import { Template } from '../types/Template';
+import { DEFAULT_TEMPLATES } from '../utils/constants';
 import { v4 as uuid } from 'uuid';
 
 export interface TemplatesContextType {

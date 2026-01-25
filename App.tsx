@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import { AppProvider } from '@/context';
-import { RootNavigator } from '@/navigation';
+import { AppProvider } from './src/context';
+import { RootNavigator } from './src/navigation';
 
 function App() {
   return (

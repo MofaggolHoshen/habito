@@ -4,8 +4,8 @@
  */
 
 import React, { createContext, useReducer, ReactNode, useCallback } from 'react';
-import { Task } from '@/types/Task';
-import { getCurrentDate } from '@/utils/dateHelpers';
+import { Task } from '../types/Task';
+import { getCurrentDate } from '../utils/dateHelpers';
 import { v4 as uuid } from 'uuid';
 
 export interface TasksState {

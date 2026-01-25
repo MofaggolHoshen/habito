@@ -12,10 +12,10 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import { Theme } from '@/styles/theme';
-import { DashboardScreenProps } from '@/navigation/types';
-import { useCalendar } from '@/context/CalendarContext';
-import { formatMonthYear, getMonthDays, getDayOfWeek, isToday, formatDate } from '@/utils';
+import { Theme } from '../styles/theme';
+import { DashboardScreenProps } from '../navigation/types';
+import { useCalendar } from '../context/CalendarContext';
+import { formatMonthYear, getMonthDays, getDayOfWeek, isToday, formatDate } from '../utils';
 
 const { width } = Dimensions.get('window');
 const CALENDAR_CELL_SIZE = (width - 48) / 7;
@@ -206,9 +206,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Theme.colors.border,
     borderRadius: 4,
-    padding: 4,
+    padding: 6,
     backgroundColor: Theme.colors.white,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   emptryCell: {
     backgroundColor: 'transparent',
@@ -223,10 +224,15 @@ const styles = StyleSheet.create({
     fontSize: Theme.typography.fontSize.bodyRegular,
     fontWeight: Theme.typography.fontWeight.regular,
     color: Theme.colors.text,
+    textAlign: 'center',
+    width: '100%',
+    marginBottom: 6,
   },
   dayStats: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 2,
   },
   taskStat: {
     fontSize: 9,

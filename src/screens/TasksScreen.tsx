@@ -14,12 +14,12 @@ import {
   SectionList,
   SectionListData,
 } from 'react-native';
-import { Theme } from '@/styles/theme';
-import { TasksScreenProps } from '@/navigation/types';
-import { Task } from '@/types/Task';
-import { useTasks } from '@/context/TasksContext';
-import { useRatings } from '@/context/RatingsContext';
-import { formatFullDate, formatTaskCount, getEmojiForRating } from '@/utils';
+import { Theme } from '../styles/theme';
+import { TasksScreenProps } from '../navigation/types';
+import { Task } from '../types/Task';
+import { useTasks } from '../context/TasksContext';
+import { useRatings } from '../context/RatingsContext';
+import { formatFullDate, formatTaskCount, getEmojiForRating } from '../utils';
 
 const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
   const { date } = route.params;
