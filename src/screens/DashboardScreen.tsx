@@ -1,6 +1,6 @@
 /**
  * Dashboard Screen
- * Shows calendar view with real task data
+ * Shows calendar view with real task data and analytics charts
  */
 
 import React, { useEffect } from 'react';
@@ -17,6 +17,9 @@ import { DashboardScreenProps } from '../navigation/types';
 import { useCalendar } from '../context/CalendarContext';
 import { useTasks } from '../context/TasksContext';
 import { formatMonthYear, getMonthDays, getDayOfWeek, isToday } from '../utils';
+import TaskCompletionChart from '../components/Charts/TaskCompletionChart';
+import WeeklyStatsChart from '../components/Charts/WeeklyStatsChart';
+import MonthlyTrendChart from '../components/Charts/MonthlyTrendChart';
 
 const { width } = Dimensions.get('window');
 const CALENDAR_CELL_SIZE = (width - 48) / 7;
@@ -146,20 +149,17 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
         </View>
 
         {/* Task Completion Chart */}
-        <View style={styles.chartSection}>
-          <Text style={styles.sectionTitle}>Today's Tasks</Text>
-          <View style={styles.pieChartPlaceholder}>
-            <Text style={styles.placeholderText}>Chart</Text>
-          </View>
-        </View>
+        <TaskCompletionChart tasks={tasksState.tasks} />
 
-        {/* Progress Chart */}
-        <View style={styles.chartSection}>
-          <Text style={styles.sectionTitle}>Progress Trend</Text>
-          <View style={styles.lineChartPlaceholder}>
-            <Text style={styles.placeholderText}>Chart</Text>
-          </View>
-        </View>
+        {/* Weekly Stats Chart */}
+        <WeeklyStatsChart tasks={tasksState.tasks} />
+
+        {/* Monthly Trend Chart */}
+        <MonthlyTrendChart 
+          tasks={tasksState.tasks}
+          month={state.currentMonth}
+          year={state.currentYear}
+        />
       </ScrollView>
     </View>
   );
