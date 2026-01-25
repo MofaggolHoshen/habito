@@ -111,9 +111,9 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
 
               const isTodayDate = day !== null && isToday(dateStr!);
               const { completed, total } = day !== null ? getDayStats(day) : { completed: 0, total: 0 };
-              const completionColor = total === 0 ? Theme.colors.neutral.gray400 : 
-                completed === total ? Theme.colors.success.main : 
-                Theme.colors.neutral.gray300;
+              const completionColor = total === 0 ? Theme.colors.lightGray : 
+                completed === total ? Theme.colors.success : 
+                Theme.colors.gray;
 
               return (
                 <TouchableOpacity
