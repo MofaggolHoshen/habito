@@ -1,11 +1,18 @@
+/**
+ * Habito - Daily Habit & Task Tracker
+ * Root App Component
+ */
+
 import React from 'react';
-import {Text} from 'react-native';
+import { AppProvider } from '@/context';
+import { RootNavigator } from '@/navigation';
 
 function App() {
   return (
-  <Text>Hello World!</Text>
+    <AppProvider>
+      <RootNavigator />
+    </AppProvider>
   );
 }
-
 
 export default App;

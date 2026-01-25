@@ -62,13 +62,6 @@ export const formatCompletionPercentage = (completed: number, total: number): st
 };
 
 /**
- * Format month and year (e.g., "February 2026")
- */
-export const formatMonthYear = (month: number, year: number): string => {
-  return `${getMonthName(month)} ${year}`;
-};
-
-/**
  * Format full date with day name (e.g., "Monday, 24 January 2026")
  */
 export const formatFullDate = (dateString: string): string => {

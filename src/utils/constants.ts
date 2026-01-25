@@ -72,7 +72,7 @@ export const DEFAULT_TEMPLATES = {
       { description: 'Night Routine', time: '21:30', icon: '🌙' },
     ],
   },
-} as const;
+};
 
 // Task Constants
 export const TASK_CONFIG = {

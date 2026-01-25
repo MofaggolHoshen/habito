@@ -2,6 +2,8 @@
  * Validation Utilities
  */
 
+import { isValidTime as validateTime } from './timeHelpers';
+
 /**
  * Validate task description
  */
@@ -12,18 +14,6 @@ export const isValidTaskDescription = (description: string): boolean => {
 
   const trimmed = description.trim();
   return trimmed.length > 0 && trimmed.length <= 100;
-};
-
-/**
- * Validate task time (HH:MM format)
- */
-export const isValidTime = (timeString: string): boolean => {
-  if (!timeString || typeof timeString !== 'string') {
-    return false;
-  }
-
-  const regex = /^([0-1]\d|2[0-3]):([0-5]\d)$/;
-  return regex.test(timeString);
 };
 
 /**
@@ -116,7 +106,7 @@ export const isValidTask = (task: any): boolean => {
     task &&
     typeof task === 'object' &&
     isValidTaskDescription(task.description) &&
-    (!task.time || isValidTime(task.time))
+    (!task.time || validateTime(task.time))
   );
 };
 
@@ -134,7 +124,7 @@ export const isValidTemplate = (template: any): boolean => {
     template.tasks.every(
       (task: any) =>
         isValidTaskDescription(task.description) &&
-        isValidTime(task.time)
+        validateTime(task.time)
     )
   );
 };
