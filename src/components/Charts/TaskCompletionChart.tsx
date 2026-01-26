@@ -7,10 +7,10 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
-import { Theme } from '../styles/theme';
-import { Task } from '../types/Task';
-import { getTodayTasksData } from '../utils/chartHelpers';
-import { getCurrentDate } from '../utils/dateHelpers';
+import { Theme } from '../../styles/theme';
+import { Task } from '../../types/Task';
+import { getTodayTasksData } from '../../utils/chartHelpers';
+import { getCurrentDate } from '../../utils/dateHelpers';
 
 interface TaskCompletionChartProps {
   tasks: Task[];

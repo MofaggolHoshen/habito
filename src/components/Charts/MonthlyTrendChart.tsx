@@ -7,9 +7,9 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
-import { Theme } from '../styles/theme';
-import { Task } from '../types/Task';
-import { getMonthlyTasksData } from '../utils/chartHelpers';
+import { Theme } from '../../styles/theme';
+import { Task } from '../../types/Task';
+import { getMonthlyTasksData } from '../../utils/chartHelpers';
 
 interface MonthlyTrendChartProps {
   tasks: Task[];
