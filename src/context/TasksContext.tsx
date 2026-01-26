@@ -1,8 +1,3 @@
-/**
- * Tasks Context with Reducer
- * Manages task state and operations with database integration
- */
-
 import React, { createContext, useReducer, ReactNode, useCallback, useEffect } from 'react';
 import { Task } from '../types/Task';
 import { getCurrentDate } from '../utils/dateHelpers';
@@ -114,11 +109,6 @@ export interface TasksProviderProps {
 export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(tasksReducer, initialState);
 
-  // Load tasks for selected date when it changes
-  useEffect(() => {
-    loadTasksForDate(state.selectedDate);
-  }, [state.selectedDate]);
-
   const loadTasksForDate = useCallback(async (date: string) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
@@ -132,6 +122,12 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
   }, []);
+
+  // Load tasks for selected date when it changes
+  useEffect(() => {
+    loadTasksForDate(state.selectedDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.selectedDate]);
 
   const loadTasksForMonth = useCallback(async (month: number, year: number) => {
     try {

@@ -68,12 +68,12 @@ export const TemplatesProvider: React.FC<TemplatesProviderProps> = ({ children }
       if (custom) return custom;
       return defaultTemplates.find((t) => t.id === id);
     },
-    [customTemplates]
+    [customTemplates, defaultTemplates]
   );
 
   const getAllTemplates = useCallback((): Template[] => {
     return [...defaultTemplates, ...customTemplates];
-  }, [customTemplates]);
+  }, [customTemplates, defaultTemplates]);
 
   const value: TemplatesContextType = {
     templates: defaultTemplates,

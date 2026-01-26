@@ -1,11 +1,5 @@
-/**
- * Ratings Context
- * Manages daily rating state with database integration
- */
-
 import React, { createContext, useReducer, ReactNode, useCallback } from 'react';
 import { DailyRating } from '../types/DailyRating';
-import { v4 as uuid } from 'uuid';
 import * as db from '../services/database';
 
 export interface RatingsState {

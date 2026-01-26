@@ -17,7 +17,7 @@ export const formatDate = (date: Date): string => {
  */
 export const parseDate = (dateString: string): Date => {
   const [day, month, year] = dateString.split('.');
-  return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  return new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10));
 };
 
 /**
@@ -31,7 +31,6 @@ export const getCurrentDate = (): string => {
  * Get all days in a specific month
  */
 export const getMonthDays = (month: number, year: number): Date[] => {
-  const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
   const days: Date[] = [];
 

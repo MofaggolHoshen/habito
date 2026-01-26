@@ -8,7 +8,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
   SectionList,
   SectionListData,
@@ -22,7 +21,7 @@ import { formatFullDate, getEmojiForRating } from '../utils';
 
 const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
   const { date } = route.params;
-  const { state: tasksState, getTasksByDate, setSelectedDate, toggleTask, deleteTask } = useTasks();
+  const { getTasksByDate, setSelectedDate, toggleTask } = useTasks();
   const { getRating, setRating } = useRatings();
 
   const dateString = date || '';
@@ -67,13 +66,7 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
     }
   };
 
-  const handleTaskDelete = async (taskId: string) => {
-    try {
-      await deleteTask(taskId);
-    } catch (error) {
-      console.error('Failed to delete task:', error);
-    }
-  };
+
 
   const renderTaskItem = ({ item }: { item: Task }) => (
     <TouchableOpacity

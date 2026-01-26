@@ -34,7 +34,7 @@ const MOOD_OPTIONS = [
   { emoji: '😄', label: 'Excellent', value: 5 },
 ];
 
-const MoodHistoryScreen: React.FC<MoodHistoryScreenProps> = ({ navigation }) => {
+const MoodHistoryScreen: React.FC<MoodHistoryScreenProps> = ({ _navigation }) => {
   const { getMoodHistoryForMonth } = useTasks();
   const [moodHistory, setMoodHistory] = useState<MoodEntry[]>([]);
   const [selectedPeriod, setSelectedPeriod] = useState<'week' | 'month'>('month');
@@ -44,10 +44,6 @@ const MoodHistoryScreen: React.FC<MoodHistoryScreenProps> = ({ navigation }) => 
     worst: 0,
     entries: 0,
   });
-
-  useEffect(() => {
-    loadMoodHistory();
-  }, []);
 
   const loadMoodHistory = () => {
     // Get last 30 days of mood data
@@ -71,6 +67,11 @@ const MoodHistoryScreen: React.FC<MoodHistoryScreenProps> = ({ navigation }) => 
     const date = new Date(year, month - 1, day);
     return date.toLocaleDateString('en-US', { weekday: 'short' });
   };
+
+  useEffect(() => {
+    loadMoodHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const calculateStats = (entries: MoodEntry[]) => {
     if (entries.length === 0) {

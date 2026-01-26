@@ -22,7 +22,6 @@ const WeeklyStatsChart: React.FC<WeeklyStatsChartProps> = ({ tasks }) => {
 
   const labels = weekData.map((d) => d.day);
   const data = weekData.map((d) => d.completed);
-  const maxValue = Math.max(...data, 5);
 
   return (
     <View style={styles.container}>

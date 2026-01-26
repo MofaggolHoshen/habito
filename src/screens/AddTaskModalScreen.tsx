@@ -11,14 +11,13 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  Modal,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
 import { Theme } from '../styles/theme';
 import { AddTaskModalScreenProps } from '../navigation/types';
 import { useTasks } from '../context/TasksContext';
-import { formatDate as formatDateFn, isValidTaskDescription, isValidTime } from '../utils';
+import { isValidTaskDescription, isValidTime } from '../utils';
 
 const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigation }) => {
   const { date } = route.params;

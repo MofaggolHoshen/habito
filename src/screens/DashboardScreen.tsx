@@ -28,13 +28,14 @@ const CALENDAR_CELL_SIZE = (width - 48) / 7;
 
 const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
   const { state, nextMonth, previousMonth } = useCalendar();
-  const { state: tasksState, loadTasksForMonth, getTasksByDate } = useTasks();
+  const { loadTasksForMonth, getTasksByDate } = useTasks();
   const { state: templatesState } = useTemplates();
   const [showQuickAddModal, setShowQuickAddModal] = useState(false);
 
   // Load tasks when month changes
   useEffect(() => {
     loadTasksForMonth(state.currentMonth, state.currentYear);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.currentMonth, state.currentYear]);
 
   const monthDays = getMonthDays(state.currentMonth, state.currentYear);

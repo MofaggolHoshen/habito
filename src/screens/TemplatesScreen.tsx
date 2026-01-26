@@ -24,8 +24,8 @@ interface TemplateListItem extends Template {
   isDefault?: boolean;
 }
 
-const TemplatesScreen: React.FC<TemplatesScreenProps> = ({ navigation }) => {
-  const { state, createCustomTemplate, deleteCustomTemplate, updateTemplate } = useTemplates();
+const TemplatesScreen: React.FC<TemplatesScreenProps> = ({ _navigation }) => {
+  const { state, createCustomTemplate, deleteCustomTemplate } = useTemplates();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateListItem | null>(null);

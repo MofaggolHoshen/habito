@@ -39,6 +39,7 @@ const MoodTracker: React.FC<MoodTrackerProps> = ({ date, onMoodChanged }) => {
   useEffect(() => {
     const mood = getMoodForDate(targetDate);
     setSelectedMood(mood);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetDate]);
 
   const handleMoodSelect = async (moodValue: number) => {

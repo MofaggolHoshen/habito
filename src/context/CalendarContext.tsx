@@ -60,13 +60,13 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({ children }) 
   }, []);
 
   const goToToday = useCallback(() => {
-    const today = new Date();
+    const currentDate = new Date();
     setState({
-      currentMonth: today.getMonth(),
-      currentYear: today.getFullYear(),
-      selectedDate: `${String(today.getDate()).padStart(2, '0')}.${String(
-        today.getMonth() + 1
-      ).padStart(2, '0')}.${today.getFullYear()}`,
+      currentMonth: currentDate.getMonth(),
+      currentYear: currentDate.getFullYear(),
+      selectedDate: `${String(currentDate.getDate()).padStart(2, '0')}.${String(
+        currentDate.getMonth() + 1
+      ).padStart(2, '0')}.${currentDate.getFullYear()}`,
     });
   }, []);
 

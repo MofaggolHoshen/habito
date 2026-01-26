@@ -2,7 +2,7 @@
  * Formatter Utilities
  */
 
-import { formatDate, getMonthName } from './dateHelpers';
+import { formatDate } from './dateHelpers';
 
 /**
  * Format task count as "X/Y"
