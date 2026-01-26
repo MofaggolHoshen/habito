@@ -9,12 +9,14 @@ export type RootStackParamList = {
   Tasks: { date: string };
   AddTaskModal: { date: string };
   Charts: undefined;
+  Insights: undefined;
 };
 
 export type DashboardScreenProps = NativeStackScreenProps<RootStackParamList, 'Dashboard'>;
 export type TasksScreenProps = NativeStackScreenProps<RootStackParamList, 'Tasks'>;
 export type AddTaskModalScreenProps = NativeStackScreenProps<RootStackParamList, 'AddTaskModal'>;
 export type ChartsScreenProps = NativeStackScreenProps<RootStackParamList, 'Charts'>;
+export type InsightsScreenProps = NativeStackScreenProps<RootStackParamList, 'Insights'>;
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<
   RootStackParamList,

@@ -12,6 +12,7 @@ import { RootStackParamList } from './types';
 import DashboardScreen from '../screens/DashboardScreen';
 import TasksScreen from '../screens/TasksScreen';
 import AddTaskModalScreen from '../screens/AddTaskModalScreen';
+import InsightsScreen from '../screens/InsightsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -45,6 +46,12 @@ export const RootNavigator = () => {
           options={{
             presentation: 'modal',
           }}
+        />
+
+        {/* Insights - View analytics and progress */}
+        <Stack.Screen
+          name="Insights"
+          component={InsightsScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

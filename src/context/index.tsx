@@ -8,6 +8,7 @@ import { TasksProvider } from './TasksContext';
 import { CalendarProvider } from './CalendarContext';
 import { RatingsProvider } from './RatingsContext';
 import { TemplatesProvider } from './TemplatesContext';
+import { AnalyticsProvider } from './AnalyticsContext';
 
 export interface AppProviderProps {
   children: ReactNode;
@@ -19,7 +20,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       <CalendarProvider>
         <RatingsProvider>
           <TemplatesProvider>
-            {children}
+            <AnalyticsProvider>
+              {children}
+            </AnalyticsProvider>
           </TemplatesProvider>
         </RatingsProvider>
       </CalendarProvider>
@@ -41,3 +44,6 @@ export type { RatingsContextType, RatingsState } from './RatingsContext';
 
 export { TemplatesContext, useTemplates } from './TemplatesContext';
 export type { TemplatesContextType } from './TemplatesContext';
+
+export { AnalyticsContext, useAnalytics } from './AnalyticsContext';
+export type { AnalyticsContextType } from './AnalyticsContext';

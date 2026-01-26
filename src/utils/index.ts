@@ -3,7 +3,7 @@
  */
 
 // Date Helpers
-export { formatDate, parseDate, getCurrentDate, getMonthDays, getDayOfWeek, isToday, datesBetween, addDays, getMonthName, getDayName, getShortDayName, formatMonthYear, getLastNDays, isSameDay, getDayOfMonth, getMonth, getYear } from './dateHelpers';
+export { formatDate, parseDate, getCurrentDate, getMonthDays, getDayOfWeek, isToday, datesBetween, addDays, getMonthName, getDayName, getShortDayName, formatMonthYear, getLastNDays, isSameDay, getDayOfMonth, getMonth, getYear, getDaysBetween } from './dateHelpers';
 
 // Time Helpers
 export { formatTime, getCurrentTime, timeToMinutes, minutesToTime, sortByTime, isValidTime, compareTime, addMinutesToTime, getTimeRangeLabel, isMorning, isAfternoon, isEvening, isNight, getPeriodOfDay, getTimeUntil, formatTimeDifference } from './timeHelpers';
@@ -13,6 +13,15 @@ export { formatTaskCount, formatRating, getEmojiForRating, formatPercentage, for
 
 // Validators
 export { isValidTaskDescription, isValidTemplateName, isValidTemplateIcon, isValidRating, isValidDateFormat, isValidEmail, isEmpty, isValidTask, isValidTemplate, isValidId, isInRange, getValidationError } from './validators';
+
+// Streak Helpers
+export { calculateStreak, getCompletionRate, getAverageDailyCompletion, getConsecutiveActiveDays, formatStreakDisplay, getAchievements } from './streakHelpers';
+
+// Analytics Helpers
+export { calculateDailyStats, calculateWeeklyStats, calculateMonthlyStats, getTrend, getTrendEmoji, getInsights, calculateProductivityScore, getProductivityLevel } from './analyticsHelpers';
+
+// Notification Helpers
+export { createTaskReminder, createEncouragementNotification, createAchievementNotification, isInQuietHours, getPendingNotifications, scheduleNotificationsForDay, formatNotification, isValidReminderTime, getSuggestedReminderTime } from './notificationHelpers';
 
 // Constants
 export { DEFAULT_TEMPLATES, TASK_CONFIG, TEMPLATE_CONFIG, RATING_CONFIG, CALENDAR_CONFIG, CHART_CONFIG, ANIMATION_DURATION, SCREEN_NAMES, DATE_FORMAT, TIME_FORMAT, STORAGE_KEYS, ERROR_MESSAGES, SUCCESS_MESSAGES, EMPTY_STATE_MESSAGES } from './constants';

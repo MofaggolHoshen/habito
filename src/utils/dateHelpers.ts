@@ -183,3 +183,11 @@ export const getYear = (date: Date | string): number => {
   const d = typeof date === 'string' ? parseDate(date) : date;
   return d.getFullYear();
 };
+
+/**
+ * Get number of days between two dates
+ */
+export const getDaysBetween = (start: Date, end: Date): number => {
+  const msPerDay = 24 * 60 * 60 * 1000;
+  return Math.floor((end.getTime() - start.getTime()) / msPerDay);
+};
