@@ -29,7 +29,7 @@ const CALENDAR_CELL_SIZE = (width - 48) / 7;
 const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
   const { state, nextMonth, previousMonth } = useCalendar();
   const { state: tasksState, loadTasksForMonth, getTasksByDate } = useTasks();
-  const { state: templatesState } = useTemplates();
+  const { templates, customTemplates } = useTemplates();
   const [showQuickAddModal, setShowQuickAddModal] = useState(false);
 
   // Load tasks when month changes
@@ -178,7 +178,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
       {/* Quick Add Template Modal */}
       <QuickAddTemplateModal
         visible={showQuickAddModal}
-        templates={[...templatesState.defaultTemplates, ...templatesState.customTemplates]}
+        templates={[...templates, ...customTemplates]}
         onClose={() => setShowQuickAddModal(false)}
         onSuccess={() => loadTasksForMonth(state.currentMonth, state.currentYear)}
       />

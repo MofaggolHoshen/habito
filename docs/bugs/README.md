@@ -1,8 +1,8 @@
 # 🐛 Known Bugs & Issues - Habito Project
 
 **Last Updated**: January 26, 2026  
-**Total Issues Tracked**: 2  
-**Resolved Issues**: 2  
+**Total Issues Tracked**: 3  
+**Resolved Issues**: 3  
 **Open Issues**: 0
 
 ---
@@ -39,33 +39,47 @@
 
 ---
 
+#### ✅ BUG-003: Property 'defaultTemplates' doesn't exist
+- **Status**: RESOLVED
+- **Severity**: HIGH (Runtime error)
+- **Date Found**: January 26, 2026
+- **Date Resolved**: January 26, 2026
+- **Fix Time**: ~5 minutes
+- **Root Causes**: Wrong destructuring + wrong property name
+- **Files Affected**: `src/screens/DashboardScreen.tsx`
+- **Documentation**: [BUG_003_DEFAULTTEMPLATES_UNDEFINED.md](./BUG_003_DEFAULTTEMPLATES_UNDEFINED.md)
+
+**Summary**: DashboardScreen tried to destructure `state` from `useTemplates()` which doesn't have a state property. Also used wrong property name `defaultTemplates` instead of `templates`.
+
+---
+
 ## 🔍 Issue Statistics
 
 ### By Severity
 | Severity | Count | Status |
 |----------|-------|--------|
-| HIGH | 2 | ✅ Resolved |
+| HIGH | 3 | ✅ Resolved |
 | MEDIUM | 0 | — |
 | LOW | 0 | — |
-| **Total** | **2** | **✅ 0 Open** |
+| **Total** | **3** | **✅ 0 Open** |
 
 ### By Category
 | Category | Count | Status |
 |----------|-------|--------|
 | Import/Module | 1 | ✅ Resolved |
-| State Management | 1 | ✅ Resolved |
+| State Management | 2 | ✅ Resolved |
 | Performance | 0 | — |
 | UI/UX | 0 | — |
 | Database | 0 | — |
-| **Total** | **2** | **✅ All Resolved** |
+| **Total** | **3** | **✅ All Resolved** |
 
 ### By Component
 | Component | Count | Status |
 |-----------|-------|--------|
 | Chart Components | 1 | ✅ Resolved |
-| DashboardScreen | 1 | ✅ Resolved |
+| DashboardScreen | 2 | ✅ Resolved |
 | Other Components | 0 | — |
-| **Total** | **2** | **✅ All Resolved** |
+| **Total** | **3** | **✅ All Resolved** |
 
 ---
 
