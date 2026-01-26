@@ -1,8 +1,8 @@
 # 🐛 Known Bugs & Issues - Habito Project
 
 **Last Updated**: January 26, 2026  
-**Total Issues Tracked**: 1  
-**Resolved Issues**: 1  
+**Total Issues Tracked**: 2  
+**Resolved Issues**: 2  
 **Open Issues**: 0
 
 ---
@@ -11,23 +11,31 @@
 
 ### Resolved Issues
 
-#### ✅ BUG-001: chartHelpers Import Path Resolution Error
+#### ✅ BUG-001: Chart Components Import Path Resolution Error
 - **Status**: RESOLVED
 - **Severity**: HIGH (Blocking build)
 - **Date Found**: January 26, 2026
 - **Date Resolved**: January 26, 2026
-- **Fix Time**: ~5 minutes
-- **Root Cause**: Incorrect relative import path (`../utils/` should be `../../utils/`)
-- **Files Affected**: `src/components/Charts/TaskCompletionChart.tsx`
+- **Fix Time**: ~10 minutes
+- **Root Cause**: Incorrect relative import paths (`../utils/` should be `../../utils/`)
+- **Files Affected**: 3 chart components (TaskCompletionChart, WeeklyStatsChart, MonthlyTrendChart)
 - **Documentation**: [BUG_001_CHARTHELPERS_IMPORT_ERROR.md](./BUG_001_CHARTHELPERS_IMPORT_ERROR.md)
 
-**Summary**:
-Metro bundler couldn't resolve the chartHelpers module because the import path was off by one level. The file was trying to import from `../utils/chartHelpers` which resolved to `src/components/utils/chartHelpers` (non-existent) instead of `../../utils/chartHelpers` which resolves to `src/utils/chartHelpers` (correct).
+**Summary**: Metro bundler couldn't resolve utility modules because import paths were missing one `../` level. All 10 imports in 3 files were updated to use correct paths.
 
-**Resolution**:
-- Updated import path from `../utils/chartHelpers` to `../../utils/chartHelpers`
-- Verified all chart components use correct paths
-- Tested build and linting - all pass
+---
+
+#### ✅ BUG-002: Property 'tasksState' doesn't exist
+- **Status**: RESOLVED
+- **Severity**: HIGH (Runtime error)
+- **Date Found**: January 26, 2026
+- **Date Resolved**: January 26, 2026
+- **Fix Time**: ~5 minutes
+- **Root Cause**: Missing `state` destructuring from `useTasks()` hook
+- **Files Affected**: `src/screens/DashboardScreen.tsx`
+- **Documentation**: [BUG_002_TASKSTATE_UNDEFINED.md](./BUG_002_TASKSTATE_UNDEFINED.md)
+
+**Summary**: DashboardScreen component was trying to use `tasksState` variable that was never defined. The hook return value wasn't being destructured correctly to extract the `state` property.
 
 ---
 
@@ -36,26 +44,28 @@ Metro bundler couldn't resolve the chartHelpers module because the import path w
 ### By Severity
 | Severity | Count | Status |
 |----------|-------|--------|
-| HIGH | 1 | ✅ Resolved |
+| HIGH | 2 | ✅ Resolved |
 | MEDIUM | 0 | — |
 | LOW | 0 | — |
-| **Total** | **1** | **✅ 0 Open** |
+| **Total** | **2** | **✅ 0 Open** |
 
 ### By Category
 | Category | Count | Status |
 |----------|-------|--------|
 | Import/Module | 1 | ✅ Resolved |
+| State Management | 1 | ✅ Resolved |
 | Performance | 0 | — |
 | UI/UX | 0 | — |
 | Database | 0 | — |
-| **Total** | **1** | **✅ All Resolved** |
+| **Total** | **2** | **✅ All Resolved** |
 
 ### By Component
 | Component | Count | Status |
 |-----------|-------|--------|
-| TaskCompletionChart | 1 | ✅ Resolved |
+| Chart Components | 1 | ✅ Resolved |
+| DashboardScreen | 1 | ✅ Resolved |
 | Other Components | 0 | — |
-| **Total** | **1** | **✅ All Resolved** |
+| **Total** | **2** | **✅ All Resolved** |
 
 ---
 

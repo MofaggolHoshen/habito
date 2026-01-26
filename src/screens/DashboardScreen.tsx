@@ -28,7 +28,7 @@ const CALENDAR_CELL_SIZE = (width - 48) / 7;
 
 const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
   const { state, nextMonth, previousMonth } = useCalendar();
-  const { loadTasksForMonth, getTasksByDate } = useTasks();
+  const { state: tasksState, loadTasksForMonth, getTasksByDate } = useTasks();
   const { state: templatesState } = useTemplates();
   const [showQuickAddModal, setShowQuickAddModal] = useState(false);
 
