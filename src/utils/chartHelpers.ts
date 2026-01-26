@@ -5,7 +5,7 @@
 
 import { Task } from '../types/Task';
 import { DailyRating } from '../types/DailyRating';
-import { getCurrentDate, getDateFromString } from './dateHelpers';
+import { getCurrentDate, parseDate } from './dateHelpers';
 
 /**
  * Get today's task completion data for pie chart
@@ -226,7 +226,7 @@ export const getBestDayOfWeek = (tasks: Task[]): { day: string; percentage: numb
   };
 
   tasks.forEach((task) => {
-    const date = getDateFromString(task.date);
+    const date = parseDate(task.date);
     if (date) {
       const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()] as keyof typeof dayStats;
       dayStats[dayName].total++;
