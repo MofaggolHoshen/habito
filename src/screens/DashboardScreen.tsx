@@ -3,7 +3,7 @@
  * Shows calendar view with real task data and analytics charts
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,21 +16,16 @@ import { Theme } from '../styles/theme';
 import { DashboardScreenProps } from '../navigation/types';
 import { useCalendar } from '../context/CalendarContext';
 import { useTasks } from '../context/TasksContext';
-import { useTemplates } from '../context/TemplatesContext';
 import { formatMonthYear, getMonthDays, getDayOfWeek, isToday } from '../utils';
 import TaskCompletionChart from '../components/Charts/TaskCompletionChart';
 import WeeklyStatsChart from '../components/Charts/WeeklyStatsChart';
 import MonthlyTrendChart from '../components/Charts/MonthlyTrendChart';
-import QuickAddTemplateModal from '../components/QuickAddTemplateModal';
-
 const { width } = Dimensions.get('window');
 const CALENDAR_CELL_SIZE = (width - 48) / 7;
 
 const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
   const { state, nextMonth, previousMonth } = useCalendar();
   const { state: tasksState, loadTasksForMonth, getTasksByDate } = useTasks();
-  const { templates, customTemplates } = useTemplates();
-  const [showQuickAddModal, setShowQuickAddModal] = useState(false);
 
   // Load tasks when month changes
   useEffect(() => {
@@ -70,14 +65,6 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
       <View style={styles.statusBar} />
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Quick Add Button */}
-        <TouchableOpacity
-          style={styles.quickAddButton}
-          onPress={() => setShowQuickAddModal(true)}
-        >
-          <Text style={styles.quickAddButtonText}>⚡ Quick Add from Template</Text>
-        </TouchableOpacity>
-
         {/* Calendar Section */}
         <View style={styles.calendarSection}>
           {/* Month Header */}
@@ -174,14 +161,6 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
           year={state.currentYear}
         />
       </ScrollView>
-
-      {/* Quick Add Template Modal */}
-      <QuickAddTemplateModal
-        visible={showQuickAddModal}
-        templates={[...templates, ...customTemplates]}
-        onClose={() => setShowQuickAddModal(false)}
-        onSuccess={() => loadTasksForMonth(state.currentMonth, state.currentYear)}
-      />
     </View>
   );
 };
@@ -199,21 +178,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: Theme.spacing.md,
     paddingVertical: Theme.spacing.md,
-  },
-  quickAddButton: {
-    backgroundColor: Theme.colors.primaryStart,
-    borderRadius: Theme.borderRadius.md,
-    paddingHorizontal: Theme.spacing.md,
-    paddingVertical: Theme.spacing.md,
-    marginHorizontal: Theme.spacing.md,
-    marginBottom: Theme.spacing.md,
-    alignItems: 'center',
-    ...Theme.shadows.medium,
-  },
-  quickAddButtonText: {
-    color: Theme.colors.white,
-    ...Theme.textStyles.body,
-    fontWeight: 'bold',
   },
   calendarSection: {
     marginBottom: Theme.spacing.lg,

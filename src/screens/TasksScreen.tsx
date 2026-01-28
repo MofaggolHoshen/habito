@@ -112,7 +112,7 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
 
     return (
       <Text style={styles.sectionHeader}>
-        {title} ({formatTaskCount(data.length, data.length)})
+        {title.toUpperCase()}
       </Text>
     );
   };
@@ -126,39 +126,45 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
+          style={styles.backButtonContainer}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         >
           <Text style={styles.backButton}>‹</Text>
         </TouchableOpacity>
-        <Text style={styles.dateText}>Date: {formatFullDate(dateString)}</Text>
-        <View style={styles.headerSpacer} />
+        <View style={styles.dateContainer}>
+          <Text style={styles.dateText}>Date: {formatFullDate(dateString)}</Text>
+        </View>
       </View>
 
-      {/* Content */}
-      <SectionList
-        sections={sections}
-        keyExtractor={(item, index) => item.id + index}
-        renderItem={renderTaskItem}
-        renderSectionHeader={renderSectionHeader}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
-        scrollEnabled={true}
-        nestedScrollEnabled={true}
-        ListEmptyComponent={
-          <View style={styles.emptyState}>
-            <Text style={styles.emptyText}>No tasks for this day</Text>
-          </View>
-        }
-      />
+      {/* Content with bordered container */}
+      <View style={styles.contentWrapper}>
+        <View style={styles.taskListContainer}>
+          <SectionList
+            sections={sections}
+            keyExtractor={(item, index) => item.id + index}
+            renderItem={renderTaskItem}
+            renderSectionHeader={renderSectionHeader}
+            contentContainerStyle={styles.listContent}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={true}
+            nestedScrollEnabled={true}
+            ListEmptyComponent={
+              <View style={styles.emptyState}>
+                <Text style={styles.emptyText}>No tasks for this day</Text>
+              </View>
+            }
+          />
 
-      {/* FAB Button */}
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => navigation.navigate('AddTaskModal', { date: dateString })}
-        activeOpacity={0.7}
-      >
-        <Text style={styles.fabText}>+</Text>
-      </TouchableOpacity>
+          {/* FAB Button - inside task container */}
+          <TouchableOpacity
+            style={styles.fab}
+            onPress={() => navigation.navigate('AddTaskModal', { date: dateString })}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.fabText}>+</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
       {/* Rating Slider Section */}
       <View style={styles.sliderSection}>
@@ -217,49 +223,68 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Theme.spacing.md,
     paddingVertical: Theme.spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.border,
+    paddingBottom: Theme.spacing.sm,
+  },
+  backButtonContainer: {
+    width: 32,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   backButton: {
-    fontSize: 24,
+    fontSize: 32,
     color: Theme.colors.text,
+    fontWeight: '300',
   },
-  dateText: {
+  dateContainer: {
     flex: 1,
     marginLeft: Theme.spacing.md,
-    fontSize: Theme.typography.fontSize.h4,
-    fontWeight: Theme.typography.fontWeight.semibold,
+    borderBottomWidth: 2,
+    borderBottomColor: Theme.colors.text,
+    paddingBottom: Theme.spacing.xs,
+  },
+  dateText: {
+    fontSize: 20,
+    fontWeight: Theme.typography.fontWeight.bold,
     color: Theme.colors.text,
   },
-  headerSpacer: {
-    width: 24,
+  contentWrapper: {
+    flex: 1,
+    paddingHorizontal: Theme.spacing.md,
+    paddingTop: Theme.spacing.md,
+  },
+  taskListContainer: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: Theme.colors.text,
+    borderRadius: 8,
+    backgroundColor: Theme.colors.white,
+    marginBottom: Theme.spacing.md,
+    position: 'relative',
   },
   listContent: {
-    paddingHorizontal: Theme.spacing.md,
-    paddingVertical: Theme.spacing.md,
-    paddingBottom: 280,
+    padding: Theme.spacing.md,
+    paddingBottom: 80,
   },
   sectionHeader: {
-    fontSize: Theme.typography.fontSize.h4,
+    fontSize: 12,
     fontWeight: Theme.typography.fontWeight.semibold,
-    color: Theme.colors.text,
-    marginTop: Theme.spacing.md,
+    color: Theme.colors.textSecondary,
+    letterSpacing: 0.5,
+    marginTop: Theme.spacing.sm,
     marginBottom: Theme.spacing.sm,
   },
   taskItem: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    paddingVertical: Theme.spacing.sm,
-    paddingHorizontal: Theme.spacing.md,
-    borderRadius: 8,
-    marginBottom: Theme.spacing.sm,
-    backgroundColor: Theme.colors.surfaceAlt,
-    borderWidth: 1,
-    borderColor: Theme.colors.border,
+    paddingVertical: Theme.spacing.md,
+    marginBottom: 1,
+    backgroundColor: Theme.colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
   },
   taskItemCompleted: {
-    backgroundColor: 'rgba(76, 175, 80, 0.1)',
-    borderColor: Theme.colors.complete,
+    backgroundColor: Theme.colors.white,
   },
   checkbox: {
     width: 24,
@@ -308,12 +333,12 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    bottom: 100,
+    bottom: Theme.spacing.md,
     right: Theme.spacing.md,
     width: 56,
     height: 56,
-    borderRadius: 28,
-    backgroundColor: Theme.colors.black,
+    borderRadius: 8,
+    backgroundColor: Theme.colors.text,
     justifyContent: 'center',
     alignItems: 'center',
     ...Theme.shadows.elevation4,
@@ -328,21 +353,25 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(102, 126, 234, 0.1)',
-    paddingHorizontal: Theme.spacing.md,
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    backgroundColor: '#667eea',
+    paddingHorizontal: Theme.spacing.lg,
     paddingVertical: Theme.spacing.lg,
-    borderTopWidth: 1,
-    borderTopColor: Theme.colors.border,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    ...Theme.shadows.elevation3,
   },
   ratingContainer: {
-    paddingHorizontal: Theme.spacing.md,
+    width: '100%',
   },
   ratingLabel: {
-    fontSize: Theme.typography.fontSize.h4,
+    fontSize: 12,
     fontWeight: Theme.typography.fontWeight.semibold,
-    color: Theme.colors.text,
-    marginBottom: Theme.spacing.md,
+    color: 'rgba(255, 255, 255, 0.9)',
+    marginBottom: Theme.spacing.sm,
     textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
   },
   ratingValueContainer: {
     flexDirection: 'row',
@@ -352,29 +381,38 @@ const styles = StyleSheet.create({
     gap: Theme.spacing.sm,
   },
   ratingValue: {
-    fontSize: 32,
+    fontSize: 40,
     fontWeight: Theme.typography.fontWeight.bold,
-    color: Theme.colors.primaryStart,
+    color: Theme.colors.white,
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
   },
   ratingEmoji: {
-    fontSize: 28,
+    fontSize: 32,
   },
   sliderTrack: {
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: Theme.colors.border,
-    marginBottom: Theme.spacing.md,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    marginBottom: Theme.spacing.sm,
     overflow: 'hidden',
   },
   sliderFill: {
     height: '100%',
-    borderRadius: 2,
-    backgroundColor: Theme.colors.primaryStart,
+    borderRadius: 4,
+    background: 'linear-gradient(90deg, #FFD700 0%, #FFA500 50%, #FF4081 100%)',
+    backgroundColor: '#FF4081',
+    shadowColor: '#FFD700',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
   },
   sliderLabels: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 4,
   },
   labelButton: {
     flex: 1,
@@ -383,13 +421,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   labelText: {
-    fontSize: Theme.typography.fontSize.caption,
-    color: Theme.colors.textSecondary,
-    fontWeight: Theme.typography.fontWeight.regular,
+    fontSize: 11,
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontWeight: Theme.typography.fontWeight.medium,
   },
   labelTextActive: {
-    color: Theme.colors.primaryStart,
-    fontWeight: Theme.typography.fontWeight.semibold,
+    color: Theme.colors.white,
+    fontWeight: Theme.typography.fontWeight.bold,
   },
 });
 
