@@ -9,6 +9,7 @@ export interface TasksState {
   selectedDate: string;
   loading: boolean;
   error: string | null;
+  viewMode: 'date' | 'month';
 }
 
 export type TasksAction =
@@ -19,13 +20,15 @@ export type TasksAction =
   | { type: 'TOGGLE_TASK'; payload: string }
   | { type: 'SET_SELECTED_DATE'; payload: string }
   | { type: 'SET_LOADING'; payload: boolean }
-  | { type: 'SET_ERROR'; payload: string | null };
+  | { type: 'SET_ERROR'; payload: string | null }
+  | { type: 'SET_VIEW_MODE'; payload: 'date' | 'month' };
 
 const initialState: TasksState = {
   tasks: [],
   selectedDate: getCurrentDate(),
   loading: false,
   error: null,
+  viewMode: 'month',
 };
 
 const tasksReducer = (state: TasksState, action: TasksAction): TasksState => {
@@ -82,6 +85,9 @@ const tasksReducer = (state: TasksState, action: TasksAction): TasksState => {
     case 'SET_ERROR':
       return { ...state, error: action.payload };
 
+    case 'SET_VIEW_MODE':
+      return { ...state, viewMode: action.payload };
+
     default:
       return state;
   }
@@ -112,6 +118,7 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   const loadTasksForDate = useCallback(async (date: string) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
+      dispatch({ type: 'SET_VIEW_MODE', payload: 'date' });
       const tasks = await db.getTasksByDate(date);
       dispatch({ type: 'SET_TASKS', payload: tasks });
     } catch (error) {
@@ -123,15 +130,18 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
     }
   }, []);
 
-  // Load tasks for selected date when it changes
+  // Load tasks for selected date when it changes (only in date view mode)
   useEffect(() => {
-    loadTasksForDate(state.selectedDate);
+    if (state.viewMode === 'date') {
+      loadTasksForDate(state.selectedDate);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.selectedDate]);
 
   const loadTasksForMonth = useCallback(async (month: number, year: number) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
+      dispatch({ type: 'SET_VIEW_MODE', payload: 'month' });
       const tasks = await db.getTasksByMonth(month, year);
       dispatch({ type: 'SET_TASKS', payload: tasks });
     } catch (error) {

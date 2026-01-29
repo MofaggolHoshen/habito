@@ -25,7 +25,7 @@ const { width } = Dimensions.get('window');
 const CALENDAR_CELL_SIZE = (width - 48) / 7;
 
 const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
-  const { state, nextMonth, previousMonth } = useCalendar();
+  const { state, nextMonth, previousMonth, selectDate } = useCalendar();
   const { state: tasksState, loadTasksForMonth, getTasksByDate } = useTasks();
   const { getRating, loadRatingsForMonth } = useRatings();
 
@@ -49,6 +49,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
     const dateStr = `${String(day).padStart(2, '0')}.${String(
       state.currentMonth + 1
     ).padStart(2, '0')}.${state.currentYear}`;
+    selectDate(dateStr);
     navigation.navigate('Tasks', { date: dateStr });
   };
 
@@ -116,6 +117,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
                   : null;
 
               const isTodayDate = day !== null && isToday(dateStr!);
+              const isSelectedDate = day !== null && dateStr === state.selectedDate;
               const { completed, total } = day !== null ? getDayStats(day) : { completed: 0, total: 0 };
               const completionColor = total === 0 ? Theme.colors.lightGray : 
                 completed === total ? Theme.colors.success : 
@@ -131,6 +133,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
                     { width: CALENDAR_CELL_SIZE, height: CALENDAR_CELL_SIZE },
                     day === null ? styles.emptryCell : undefined,
                     isTodayDate ? styles.todayCell : undefined,
+                    isSelectedDate ? styles.selectedCell : undefined,
                   ]}
                   activeOpacity={day ? 0.7 : 1}
                   disabled={!day}
@@ -246,6 +249,11 @@ const styles = StyleSheet.create({
     borderColor: Theme.colors.today,
     borderWidth: 2,
     backgroundColor: 'rgba(255, 193, 7, 0.1)',
+  },
+  selectedCell: {
+    borderColor: Theme.colors.success,
+    borderWidth: 2,
+    backgroundColor: 'rgba(76, 175, 80, 0.1)',
   },
   dayNumber: {
     fontSize: Theme.typography.fontSize.bodyRegular,

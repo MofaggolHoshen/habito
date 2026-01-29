@@ -209,7 +209,11 @@ export async function getTasksByDate(date: string): Promise<Task[]> {
 
     const tasks: Task[] = [];
     for (let i = 0; i < result[0].rows.length; i++) {
-      tasks.push(result[0].rows.item(i) as Task);
+      const row = result[0].rows.item(i);
+      tasks.push({
+        ...row,
+        isCompleted: row.isCompleted === 1,
+      } as Task);
     }
 
     return tasks;
@@ -228,18 +232,22 @@ export async function getTasksByMonth(
 ): Promise<Task[]> {
   if (!db) throw new Error('Database not initialized');
 
-  // Format: YYYY-MM (e.g., "2026-01")
-  const monthPrefix = `${year}-${String(month + 1).padStart(2, '0')}`;
+  // Format: DD.MM.YYYY - match pattern like "%.01.2026"
+  const monthSuffix = `.${String(month + 1).padStart(2, '0')}.${year}`;
 
   try {
     const result = await db.executeSql(
       'SELECT * FROM tasks WHERE date LIKE ? ORDER BY date ASC, time ASC',
-      [`${monthPrefix}-%`]
+      [`%${monthSuffix}`]
     );
 
     const tasks: Task[] = [];
     for (let i = 0; i < result[0].rows.length; i++) {
-      tasks.push(result[0].rows.item(i) as Task);
+      const row = result[0].rows.item(i);
+      tasks.push({
+        ...row,
+        isCompleted: row.isCompleted === 1,
+      } as Task);
     }
 
     return tasks;
@@ -451,12 +459,13 @@ export async function getRatingsForMonth(
 ): Promise<DailyRating[]> {
   if (!db) throw new Error('Database not initialized');
 
-  const monthPrefix = `${year}-${String(month + 1).padStart(2, '0')}`;
+  // Format: DD.MM.YYYY - match pattern like "%.01.2026"
+  const monthSuffix = `.${String(month + 1).padStart(2, '0')}.${year}`;
 
   try {
     const result = await db.executeSql(
       'SELECT * FROM daily_ratings WHERE date LIKE ? ORDER BY date ASC',
-      [`${monthPrefix}-%`]
+      [`%${monthSuffix}`]
     );
 
     const ratings: DailyRating[] = [];
