@@ -12,6 +12,7 @@ import {
   SectionList,
   SectionListData,
 } from 'react-native';
+import Slider from '@react-native-community/slider';
 import { Theme } from '../styles/theme';
 import { TasksScreenProps } from '../navigation/types';
 import { Task } from '../types/Task';
@@ -145,7 +146,7 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
             renderItem={renderTaskItem}
             renderSectionHeader={renderSectionHeader}
             contentContainerStyle={styles.listContent}
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={true}
             scrollEnabled={true}
             nestedScrollEnabled={true}
             ListEmptyComponent={
@@ -155,7 +156,7 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
             }
           />
 
-          {/* FAB Button - inside task container */}
+          {/* FAB Button - positioned at bottom-right of container */}
           <TouchableOpacity
             style={styles.fab}
             onPress={() => navigation.navigate('AddTaskModal', { date: dateString })}
@@ -166,7 +167,7 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
         </View>
       </View>
 
-      {/* Rating Slider Section */}
+      {/* Rating Slider Section - outside and below task container */}
       <View style={styles.sliderSection}>
         <View style={styles.ratingContainer}>
           <Text style={styles.ratingLabel}>Your Day Rating</Text>
@@ -175,15 +176,18 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
             <Text style={styles.ratingEmoji}>{getEmojiForRating(sliderValue)}</Text>
           </View>
 
-          {/* Slider */}
-          <View style={styles.sliderTrack}>
-            <View
-              style={[
-                styles.sliderFill,
-                { width: `${(sliderValue / 10) * 100}%` },
-              ]}
-            />
-          </View>
+          {/* Slider - Interactive */}
+          <Slider
+            style={styles.slider}
+            minimumValue={0}
+            maximumValue={10}
+            step={1}
+            value={sliderValue}
+            onValueChange={handleSliderChange}
+            minimumTrackTintColor="#FFD700"
+            maximumTrackTintColor="rgba(255, 255, 255, 0.3)"
+            thumbTintColor="#FFFFFF"
+          />
 
           {/* Slider Labels */}
           <View style={styles.sliderLabels}>
@@ -252,6 +256,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: Theme.spacing.md,
     paddingTop: Theme.spacing.md,
+    paddingBottom: 200,
   },
   taskListContainer: {
     flex: 1,
@@ -259,8 +264,8 @@ const styles = StyleSheet.create({
     borderColor: Theme.colors.text,
     borderRadius: 8,
     backgroundColor: Theme.colors.white,
-    marginBottom: Theme.spacing.md,
     position: 'relative',
+    overflow: 'hidden',
   },
   listContent: {
     padding: Theme.spacing.md,
@@ -333,15 +338,20 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    bottom: Theme.spacing.md,
-    right: Theme.spacing.md,
+    bottom: 16,
+    right: 16,
     width: 56,
     height: 56,
     borderRadius: 8,
     backgroundColor: Theme.colors.text,
     justifyContent: 'center',
     alignItems: 'center',
-    ...Theme.shadows.elevation4,
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    zIndex: 10,
   },
   fabText: {
     fontSize: 28,
@@ -353,13 +363,17 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     backgroundColor: '#667eea',
     paddingHorizontal: Theme.spacing.lg,
     paddingVertical: Theme.spacing.lg,
+    paddingTop: 20,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    ...Theme.shadows.elevation3,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
   },
   ratingContainer: {
     width: '100%',
@@ -377,7 +391,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: Theme.spacing.md,
+    marginBottom: Theme.spacing.sm,
     gap: Theme.spacing.sm,
   },
   ratingValue: {
@@ -391,22 +405,10 @@ const styles = StyleSheet.create({
   ratingEmoji: {
     fontSize: 32,
   },
-  sliderTrack: {
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    marginBottom: Theme.spacing.sm,
-    overflow: 'hidden',
-  },
-  sliderFill: {
-    height: '100%',
-    borderRadius: 4,
-    background: 'linear-gradient(90deg, #FFD700 0%, #FFA500 50%, #FF4081 100%)',
-    backgroundColor: '#FF4081',
-    shadowColor: '#FFD700',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
+  slider: {
+    width: '100%',
+    height: 40,
+    marginBottom: 8,
   },
   sliderLabels: {
     flexDirection: 'row',
@@ -428,6 +430,7 @@ const styles = StyleSheet.create({
   labelTextActive: {
     color: Theme.colors.white,
     fontWeight: Theme.typography.fontWeight.bold,
+    fontSize: 13,
   },
 });
 
