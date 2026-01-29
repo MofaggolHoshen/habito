@@ -72,7 +72,7 @@ const QuickAddTemplateModal: React.FC<QuickAddTemplateModalProps> = ({
         <Text style={styles.templateIcon}>{item.icon}</Text>
         <View style={styles.templateInfo}>
           <Text style={styles.templateName}>{item.name}</Text>
-          <Text style={styles.templateCount}>{item.tasks.length} tasks</Text>
+          <Text style={styles.templateCount}>{String(item.tasks.length)} tasks</Text>
         </View>
       </View>
       {selectedTemplate?.id === item.id && (

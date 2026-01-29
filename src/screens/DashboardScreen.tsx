@@ -16,6 +16,7 @@ import { Theme } from '../styles/theme';
 import { DashboardScreenProps } from '../navigation/types';
 import { useCalendar } from '../context/CalendarContext';
 import { useTasks } from '../context/TasksContext';
+import { useRatings } from '../context/RatingsContext';
 import { formatMonthYear, getMonthDays, getDayOfWeek, isToday } from '../utils';
 import TaskCompletionChart from '../components/Charts/TaskCompletionChart';
 import WeeklyStatsChart from '../components/Charts/WeeklyStatsChart';
@@ -26,10 +27,12 @@ const CALENDAR_CELL_SIZE = (width - 48) / 7;
 const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
   const { state, nextMonth, previousMonth } = useCalendar();
   const { state: tasksState, loadTasksForMonth, getTasksByDate } = useTasks();
+  const { getRating, loadRatingsForMonth } = useRatings();
 
-  // Load tasks when month changes
+  // Load tasks and ratings when month changes
   useEffect(() => {
     loadTasksForMonth(state.currentMonth, state.currentYear);
+    loadRatingsForMonth(state.currentMonth, state.currentYear);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.currentMonth, state.currentYear]);
 
@@ -117,6 +120,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
               const completionColor = total === 0 ? Theme.colors.lightGray : 
                 completed === total ? Theme.colors.success : 
                 Theme.colors.gray;
+              const dayRating = day !== null && dateStr ? getRating(dateStr) : null;
 
               return (
                 <TouchableOpacity
@@ -125,20 +129,22 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
                   style={[
                     styles.dayCell,
                     { width: CALENDAR_CELL_SIZE, height: CALENDAR_CELL_SIZE },
-                    day === null && styles.emptryCell,
-                    isTodayDate && styles.todayCell,
+                    day === null ? styles.emptryCell : undefined,
+                    isTodayDate ? styles.todayCell : undefined,
                   ]}
                   activeOpacity={day ? 0.7 : 1}
                   disabled={!day}
                 >
                   {day && (
                     <>
-                      <Text style={styles.dayNumber}>{day}</Text>
+                      <Text style={styles.dayNumber}>{String(day)}</Text>
                       <View style={styles.dayStats}>
                         <Text style={[styles.taskStat, { color: completionColor }]}>
-                          {completed}/{total}
+                          {String(completed)}/{String(total)}
                         </Text>
-                        <Text style={styles.ratingStat}>-</Text>
+                        <Text style={styles.ratingStat}>
+                          {dayRating !== null ? String(dayRating) : '-'}
+                        </Text>
                       </View>
                     </>
                   )}

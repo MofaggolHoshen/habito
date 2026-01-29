@@ -91,7 +91,7 @@ const TaskCompletionChart: React.FC<TaskCompletionChartProps> = ({ tasks, date }
 
         <View style={styles.statBox}>
           <Text style={[styles.statValue, { color: Theme.colors.success }]}>
-            {data.percentage}%
+            {String(data.percentage)}%
           </Text>
           <Text style={styles.statLabel}>Progress</Text>
         </View>

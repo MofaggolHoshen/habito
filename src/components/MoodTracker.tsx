@@ -71,13 +71,13 @@ const MoodTracker: React.FC<MoodTrackerProps> = ({ date, onMoodChanged }) => {
             key={mood.value}
             style={[
               styles.moodButton,
-              selectedMood === mood.value && styles.moodButtonSelected,
-              selectedMood === mood.value && { borderColor: mood.color },
+              selectedMood === mood.value ? styles.moodButtonSelected : undefined,
+              selectedMood === mood.value ? { borderColor: mood.color } : undefined,
             ]}
             onPress={() => handleMoodSelect(mood.value)}
           >
             <Text style={styles.moodEmoji}>{mood.emoji}</Text>
-            <Text style={[styles.moodLabel, selectedMood === mood.value && { color: mood.color }]}>
+            <Text style={[styles.moodLabel, selectedMood === mood.value ? { color: mood.color } : undefined]}>
               {mood.label}
             </Text>
           </TouchableOpacity>

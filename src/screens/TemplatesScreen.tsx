@@ -89,7 +89,7 @@ const TemplatesScreen: React.FC<TemplatesScreenProps> = ({ _navigation }) => {
           <Text style={styles.templateIcon}>{item.icon}</Text>
           <View style={styles.templateMeta}>
             <Text style={styles.templateName}>{item.name}</Text>
-            <Text style={styles.templateCount}>{item.tasks.length} tasks</Text>
+            <Text style={styles.templateCount}>{String(item.tasks.length)} tasks</Text>
           </View>
         </View>
         {!item.isDefault && (
@@ -110,7 +110,7 @@ const TemplatesScreen: React.FC<TemplatesScreenProps> = ({ _navigation }) => {
             </Text>
           ))}
           {item.tasks.length > 3 && (
-            <Text style={styles.moreItems}>+{item.tasks.length - 3} more</Text>
+            <Text style={styles.moreItems}>+{String(item.tasks.length - 3)} more</Text>
           )}
         </View>
       )}
@@ -218,7 +218,7 @@ const TemplatesScreen: React.FC<TemplatesScreenProps> = ({ _navigation }) => {
                 <Text style={styles.detailName}>{selectedTemplate?.name}</Text>
               </View>
 
-              <Text style={styles.sectionTitle}>Tasks ({selectedTemplate?.tasks.length || 0})</Text>
+              <Text style={styles.sectionTitle}>Tasks ({String(selectedTemplate?.tasks.length || 0)})</Text>
               {selectedTemplate?.tasks && selectedTemplate.tasks.length > 0 ? (
                 <View style={styles.taskListSection}>
                   {selectedTemplate.tasks.map((task, idx) => (

@@ -78,19 +78,19 @@ const MonthlyTrendChart: React.FC<MonthlyTrendChartProps> = ({ tasks, month, yea
         <View style={styles.stat}>
           <Text style={styles.statLabel}>Average</Text>
           <Text style={styles.statValue}>
-            {data.length > 0 ? Math.round(data.reduce((a, b) => a + b, 0) / data.length) : 0}%
+            {String(data.length > 0 ? Math.round(data.reduce((a, b) => a + b, 0) / data.length) : 0)}%
           </Text>
         </View>
 
         <View style={styles.stat}>
           <Text style={styles.statLabel}>Highest</Text>
-          <Text style={styles.statValue}>{data.length > 0 ? Math.max(...data) : 0}%</Text>
+          <Text style={styles.statValue}>{String(data.length > 0 ? Math.max(...data) : 0)}%</Text>
         </View>
 
         <View style={styles.stat}>
           <Text style={styles.statLabel}>Lowest</Text>
           <Text style={styles.statValue}>
-            {data.length > 0 && data.some((d) => d > 0) ? Math.min(...data.filter((d) => d > 0)) : 0}%
+            {String(data.length > 0 && data.some((d) => d > 0) ? Math.min(...data.filter((d) => d > 0)) : 0)}%
           </Text>
         </View>
       </View>

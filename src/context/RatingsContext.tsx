@@ -140,7 +140,7 @@ export const RatingsProvider: React.FC<RatingsProviderProps> = ({ children }) =>
   const getRating = useCallback(
     (date: string): number | null => {
       const rating = state.ratings.find((r) => r.date === date);
-      return rating?.rating || null;
+      return rating?.rating ?? null;
     },
     [state.ratings]
   );

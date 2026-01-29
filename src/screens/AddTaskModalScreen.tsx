@@ -289,7 +289,7 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
               onChangeText={setTaskDescription}
               maxLength={100}
             />
-            <Text style={styles.charCounter}>{taskDescription.length}/100</Text>
+            <Text style={styles.charCounter}>{String(taskDescription.length)}/100</Text>
 
             <View style={styles.timeRow}>
               <Text style={styles.timeIcon}>🕐</Text>
@@ -336,18 +336,18 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
                     key={template.id}
                     style={[
                       styles.templateCard,
-                      isSelected && styles.templateCardSelected,
-                      isCustom && styles.templateCardCustom,
+                      isSelected ? styles.templateCardSelected : undefined,
+                      isCustom ? styles.templateCardCustom : undefined,
                     ]}
                     onPress={() => toggleTemplateSelection(template.id)}
                     activeOpacity={0.7}
                   >
                     <Text style={styles.templateIcon}>{template.icon}</Text>
-                    <Text style={[styles.templateName, isSelected && styles.templateNameSelected]}>
+                    <Text style={[styles.templateName, isSelected ? styles.templateNameSelected : undefined]}>
                       {template.name}
                     </Text>
-                    <Text style={[styles.templateTaskCount, isSelected && styles.templateTaskCountSelected]}>
-                      {template.tasks.length} tasks
+                    <Text style={[styles.templateTaskCount, isSelected ? styles.templateTaskCountSelected : undefined]}>
+                      {String(template.tasks.length)} tasks
                     </Text>
                   </TouchableOpacity>
                 );
@@ -410,11 +410,11 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
                       return (
                         <TouchableOpacity
                           key={`${templateId}-${taskIndex}`}
-                          style={[styles.previewTask, isSelected && styles.previewTaskSelected]}
+                          style={[styles.previewTask, isSelected ? styles.previewTaskSelected : undefined]}
                           onPress={() => toggleTemplateTask(templateId, taskIndex)}
                           activeOpacity={0.7}
                         >
-                          <View style={[styles.previewCheckbox, isSelected && styles.previewCheckboxSelected]}>
+                          <View style={[styles.previewCheckbox, isSelected ? styles.previewCheckboxSelected : undefined]}>
                             {isSelected && <Text style={styles.previewCheckmark}>✓</Text>}
                           </View>
                           <Text style={styles.previewIcon}>📌</Text>
@@ -448,14 +448,14 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
               style={[
                 styles.button,
                 styles.saveButton,
-                totalTasks === 0 && styles.saveButtonDisabled,
+                totalTasks === 0 ? styles.saveButtonDisabled : undefined,
               ]}
               onPress={handleSaveTasks}
               disabled={totalTasks === 0}
               activeOpacity={0.7}
             >
               <Text style={styles.saveButtonText}>
-                Add {totalTasks} Task{totalTasks !== 1 ? 's' : ''}
+                Add {String(totalTasks)} Task{totalTasks !== 1 ? 's' : ''}
               </Text>
             </TouchableOpacity>
           </View>

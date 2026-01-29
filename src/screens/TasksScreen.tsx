@@ -73,7 +73,7 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
     <TouchableOpacity
       style={[
         styles.taskItem,
-        item.isCompleted && styles.taskItemCompleted,
+        item.isCompleted ? styles.taskItemCompleted : undefined,
       ]}
       onPress={() => handleTaskToggle(item.id)}
       activeOpacity={0.7}
@@ -81,7 +81,7 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
       <View
         style={[
           styles.checkbox,
-          item.isCompleted && styles.checkboxCompleted,
+          item.isCompleted ? styles.checkboxCompleted : undefined,
         ]}
       >
         {item.isCompleted && (
@@ -92,7 +92,7 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
         <Text
           style={[
             styles.taskDescription,
-            item.isCompleted && styles.taskDescriptionCompleted,
+            item.isCompleted ? styles.taskDescriptionCompleted : undefined,
           ]}
         >
           {item.description}
@@ -172,7 +172,7 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
         <View style={styles.ratingContainer}>
           <Text style={styles.ratingLabel}>Your Day Rating</Text>
           <View style={styles.ratingValueContainer}>
-            <Text style={styles.ratingValue}>{sliderValue}</Text>
+            <Text style={styles.ratingValue}>{String(sliderValue)}</Text>
             <Text style={styles.ratingEmoji}>{getEmojiForRating(sliderValue)}</Text>
           </View>
 

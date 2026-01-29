@@ -126,26 +126,26 @@ const MoodHistoryScreen: React.FC<MoodHistoryScreenProps> = ({ _navigation }) =>
         {/* Period Selector */}
         <View style={styles.periodSelector}>
           <TouchableOpacity
-            style={[styles.periodButton, selectedPeriod === 'week' && styles.periodButtonActive]}
+            style={[styles.periodButton, selectedPeriod === 'week' ? styles.periodButtonActive : undefined]}
             onPress={() => setSelectedPeriod('week')}
           >
             <Text
               style={[
                 styles.periodButtonText,
-                selectedPeriod === 'week' && styles.periodButtonTextActive,
+                selectedPeriod === 'week' ? styles.periodButtonTextActive : undefined,
               ]}
             >
               Week
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.periodButton, selectedPeriod === 'month' && styles.periodButtonActive]}
+            style={[styles.periodButton, selectedPeriod === 'month' ? styles.periodButtonActive : undefined]}
             onPress={() => setSelectedPeriod('month')}
           >
             <Text
               style={[
                 styles.periodButtonText,
-                selectedPeriod === 'month' && styles.periodButtonTextActive,
+                selectedPeriod === 'month' ? styles.periodButtonTextActive : undefined,
               ]}
             >
               Month
@@ -157,7 +157,7 @@ const MoodHistoryScreen: React.FC<MoodHistoryScreenProps> = ({ _navigation }) =>
         <View style={styles.statsContainer}>
           <View style={styles.statCard}>
             <Text style={styles.statLabel}>Average Mood</Text>
-            <Text style={styles.statValue}>{stats.average}</Text>
+            <Text style={styles.statValue}>{String(stats.average)}</Text>
             <Text style={styles.statEmoji}>{getMoodEmoji(Math.round(stats.average))}</Text>
           </View>
 
@@ -192,7 +192,7 @@ const MoodHistoryScreen: React.FC<MoodHistoryScreenProps> = ({ _navigation }) =>
                     ]}
                   />
                 </View>
-                <Text style={styles.distributionCount}>{count}</Text>
+                <Text style={styles.distributionCount}>{String(count)}</Text>
               </View>
             );
           })}
@@ -200,7 +200,7 @@ const MoodHistoryScreen: React.FC<MoodHistoryScreenProps> = ({ _navigation }) =>
 
         {/* Mood History List */}
         <View style={styles.historyHeader}>
-          <Text style={styles.historyTitle}>Recent Entries ({filteredHistory.length})</Text>
+          <Text style={styles.historyTitle}>Recent Entries ({String(filteredHistory.length)})</Text>
         </View>
 
         {filteredHistory.length > 0 ? (

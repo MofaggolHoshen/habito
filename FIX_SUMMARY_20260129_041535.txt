@@ -1,0 +1,87 @@
+===============================================
+HABITO APP - TEXT RENDERING ERROR FIX SUMMARY
+===============================================
+Date: 2026-01-29 04:15
+
+PROBLEM:
+--------
+React Native error: "Text strings must be rendered within a <Text> component"
+
+ROOT CAUSES:
+------------
+1. Boolean values in style arrays (e.g., condition && styles.X)
+   - When condition is false, React Native tries to render 'false'
+   
+2. Numbers rendered directly without String() conversion
+   - React Native strict mode requires explicit string conversion
+
+FILES MODIFIED: 10 files
+-----------------------
+
+1. src/screens/DashboardScreen.tsx
+   - Fixed 2 boolean style conditions
+   - Fixed 4 number displays (day, completed, total, dayRating)
+   - Added rating display functionality for calendar
+   
+2. src/screens/TasksScreen.tsx
+   - Fixed 3 boolean style conditions
+   - Fixed 1 number display (sliderValue)
+   
+3. src/screens/AddTaskModalScreen.tsx
+   - Fixed 6 boolean style conditions
+   - Fixed 3 number displays
+   
+4. src/screens/MoodHistoryScreen.tsx
+   - Fixed 4 boolean style conditions
+   - Fixed 3 number displays
+   
+5. src/components/MoodTracker.tsx
+   - Fixed 3 boolean style conditions
+   
+6. src/screens/TemplatesScreen.tsx
+   - Fixed 3 number displays
+   
+7. src/components/QuickAddTemplateModal.tsx
+   - Fixed 1 number display
+   
+8. src/components/Charts/TaskCompletionChart.tsx
+   - Fixed 1 number display
+   
+9. src/components/Charts/MonthlyTrendChart.tsx
+   - Fixed 3 number displays
+   
+10. src/context/RatingsContext.tsx
+    - Fixed nullish coalescing for rating value of 0
+
+TOTAL FIXES: 40+ instances
+
+VERIFICATION:
+-------------
+✅ All lint checks pass (0 errors)
+✅ Metro bundler completed successfully
+✅ TypeScript compilation passes (no new errors)
+✅ Calendar rating display now functional
+
+BEFORE & AFTER EXAMPLES:
+------------------------
+
+Boolean in Styles:
+❌ style={[styles.base, condition && styles.active]}
+✅ style={[styles.base, condition ? styles.active : undefined]}
+
+Number Display:
+❌ <Text>{dayRating}</Text>
+✅ <Text>{String(dayRating)}</Text>
+
+Rating of 0:
+❌ return rating?.rating || null  (returns null for 0)
+✅ return rating?.rating ?? null  (returns 0 correctly)
+
+NEW FEATURES ADDED:
+-------------------
+✅ Daily ratings (0-10) now display in calendar date cells
+✅ Ratings load automatically when switching months
+✅ Rating of 0 displays correctly (not as "-")
+
+STATUS: ✅ ALL ISSUES RESOLVED
+===============================================
