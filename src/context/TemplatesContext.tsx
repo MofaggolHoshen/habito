@@ -45,8 +45,9 @@ export const TemplatesProvider: React.FC<TemplatesProviderProps> = ({ children }
   );
 
   const updateTemplate = useCallback((id: string, updates: Partial<Template>) => {
-    setCustomTemplates((prev) =>
-      prev.map((t) =>
+    console.log('TemplatesContext: updateTemplate called with id:', id, 'updates:', updates);
+    setCustomTemplates((prev) => {
+      const updated = prev.map((t) =>
         t.id === id
           ? {
               ...t,
@@ -54,12 +55,19 @@ export const TemplatesProvider: React.FC<TemplatesProviderProps> = ({ children }
               updatedAt: new Date().toISOString(),
             }
           : t
-      )
-    );
+      );
+      console.log('TemplatesContext: Updated templates:', updated);
+      return updated;
+    });
   }, []);
 
   const deleteTemplate = useCallback((id: string) => {
-    setCustomTemplates((prev) => prev.filter((t) => t.id !== id));
+    console.log('TemplatesContext: deleteTemplate called with id:', id);
+    setCustomTemplates((prev) => {
+      const filtered = prev.filter((t) => t.id !== id);
+      console.log('TemplatesContext: After delete:', filtered);
+      return filtered;
+    });
   }, []);
 
   const getTemplate = useCallback(

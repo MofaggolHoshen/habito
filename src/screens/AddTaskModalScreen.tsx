@@ -167,8 +167,11 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
       return;
     }
 
+    console.log('Saving template - editingTemplateId:', editingTemplateId);
+
     if (editingTemplateId) {
       // Update existing template
+      console.log('Updating template:', editingTemplateId);
       updateTemplate(editingTemplateId, {
         name: newTemplateName,
         icon: newTemplateIcon || '⭐',
@@ -179,6 +182,7 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
       });
     } else {
       // Create new template
+      console.log('Creating new template');
       const newTemplate: Omit<Template, 'id' | 'createdAt'> = {
         name: newTemplateName,
         icon: newTemplateIcon || '⭐',
@@ -201,12 +205,16 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
   };
 
   const handleEditTemplate = (template: Template) => {
+    console.log('Edit template clicked:', template.name, 'isDefault:', template.isDefault, 'id:', template.id);
+    
     if (template.isDefault) {
       // For default templates, create a new template as a copy
+      console.log('Default template - creating copy');
       setEditingTemplateId(null);
       setNewTemplateName(template.name + ' (Copy)');
     } else {
       // For custom templates, edit the existing one
+      console.log('Custom template - editing existing, id:', template.id);
       setEditingTemplateId(template.id);
       setNewTemplateName(template.name);
     }
@@ -407,18 +415,22 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
                         >
                           <Text style={styles.editButtonIcon}>✏️</Text>
                         </TouchableOpacity>
-                        {isCustom && (
-                          <TouchableOpacity
-                            style={styles.deleteButton}
-                            onPress={(e) => {
-                              e.stopPropagation();
+                        <TouchableOpacity
+                          style={styles.deleteButton}
+                          onPress={(e) => {
+                            e.stopPropagation();
+                            if (isCustom) {
                               handleDeleteTemplate(template.id);
-                            }}
-                            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                          >
-                            <Text style={styles.deleteButtonIcon}>✖</Text>
-                          </TouchableOpacity>
-                        )}
+                            } else {
+                              // Show alert for default templates
+                              setError('Cannot delete default templates. You can only delete custom templates.');
+                              setTimeout(() => setError(null), 3000);
+                            }
+                          }}
+                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        >
+                          <Text style={styles.deleteButtonIcon}>✖</Text>
+                        </TouchableOpacity>
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -802,7 +814,7 @@ const styles = StyleSheet.create({
   templateCard: {
     width: '100%',
     padding: 16,
-    paddingTop: 40,
+    paddingTop: 36,
     borderWidth: 2,
     borderColor: '#E0E0E0',
     borderRadius: 12,
@@ -841,51 +853,47 @@ const styles = StyleSheet.create({
   },
   templateActionsOverlay: {
     position: 'absolute',
-    top: 4,
-    right: 4,
+    top: 8,
+    right: 8,
     flexDirection: 'row',
-    gap: 6,
+    gap: 4,
     zIndex: 10,
     elevation: 10,
   },
   editButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#2196F3',
-    borderWidth: 2,
-    borderColor: '#FFFFFF',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#5C7CFA',
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 3,
     zIndex: 11,
   },
   editButtonIcon: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#FFFFFF',
   },
   deleteButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#F44336',
-    borderWidth: 2,
-    borderColor: '#FFFFFF',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#FF6B6B',
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 3,
     zIndex: 11,
   },
   deleteButtonIcon: {
-    fontSize: 12,
+    fontSize: 10,
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
