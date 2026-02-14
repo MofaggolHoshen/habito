@@ -31,7 +31,7 @@ interface TemplateTask {
 const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigation }) => {
   const { date } = route.params;
   const { addTask } = useTasks();
-  const { templates, customTemplates, addTemplate: saveCustomTemplate } = useTemplates();
+  const { templates, customTemplates, addTemplate: saveCustomTemplate, updateTemplate, deleteTemplate } = useTemplates();
 
   // Manual task entry state
   const [taskDescription, setTaskDescription] = useState('');
@@ -44,6 +44,7 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
   
   // Create template modal state
   const [showCreateTemplate, setShowCreateTemplate] = useState(false);
+  const [editingTemplateId, setEditingTemplateId] = useState<string | null>(null);
   const [newTemplateName, setNewTemplateName] = useState('');
   const [newTemplateIcon, setNewTemplateIcon] = useState('⭐');
   const [templateTaskInputs, setTemplateTaskInputs] = useState<TemplateTask[]>([
@@ -166,23 +167,69 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
       return;
     }
 
-    const newTemplate: Omit<Template, 'id' | 'createdAt'> = {
-      name: newTemplateName,
-      icon: newTemplateIcon || '⭐',
-      tasks: validTasks.map(t => ({
-        description: t.description,
-        time: t.time,
-      })),
-      isDefault: false,
-    };
+    if (editingTemplateId) {
+      // Update existing template
+      updateTemplate(editingTemplateId, {
+        name: newTemplateName,
+        icon: newTemplateIcon || '⭐',
+        tasks: validTasks.map(t => ({
+          description: t.description,
+          time: t.time,
+        })),
+      });
+    } else {
+      // Create new template
+      const newTemplate: Omit<Template, 'id' | 'createdAt'> = {
+        name: newTemplateName,
+        icon: newTemplateIcon || '⭐',
+        tasks: validTasks.map(t => ({
+          description: t.description,
+          time: t.time,
+        })),
+        isDefault: false,
+      };
 
-    saveCustomTemplate(newTemplate);
+      saveCustomTemplate(newTemplate);
+    }
     
     // Reset form
     setShowCreateTemplate(false);
+    setEditingTemplateId(null);
     setNewTemplateName('');
     setNewTemplateIcon('⭐');
     setTemplateTaskInputs([{ description: '', time: '08:00' }]);
+  };
+
+  const handleEditTemplate = (template: Template) => {
+    if (template.isDefault) {
+      // For default templates, create a new template as a copy
+      setEditingTemplateId(null);
+      setNewTemplateName(template.name + ' (Copy)');
+    } else {
+      // For custom templates, edit the existing one
+      setEditingTemplateId(template.id);
+      setNewTemplateName(template.name);
+    }
+    setNewTemplateIcon(template.icon);
+    setTemplateTaskInputs(template.tasks.map(t => ({
+      description: t.description,
+      time: t.time || '08:00',
+    })));
+    setShowCreateTemplate(true);
+  };
+
+  const handleDeleteTemplate = (templateId: string) => {
+    // Deselect if selected
+    const newSelected = new Set(selectedTemplates);
+    newSelected.delete(templateId);
+    setSelectedTemplates(newSelected);
+    
+    const newTaskSelection = new Map(selectedTemplateTasks);
+    newTaskSelection.delete(templateId);
+    setSelectedTemplateTasks(newTaskSelection);
+    
+    // Delete the template
+    deleteTemplate(templateId);
   };
 
   // Save all tasks
@@ -315,16 +362,15 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
 
           {/* Templates Section */}
           <View style={styles.section}>
-            <View style={styles.templatesHeader}>
-              <Text style={styles.sectionLabel}>Or Choose from Templates (Optional)</Text>
-              <TouchableOpacity
-                style={styles.createTemplateButton}
-                onPress={() => setShowCreateTemplate(true)}
-                activeOpacity={0.7}
-              >
-                <Text style={styles.createTemplateButtonText}>+ Create Template</Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.sectionLabel}>Or Choose from Templates (Optional)</Text>
+            
+            <TouchableOpacity
+              style={styles.createTemplateButton}
+              onPress={() => setShowCreateTemplate(true)}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.createTemplateButtonText}>+ Create Template</Text>
+            </TouchableOpacity>
 
             <View style={styles.templatesGrid}>
               {allTemplates.map(template => {
@@ -332,24 +378,50 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
                 const isCustom = !template.isDefault;
                 
                 return (
-                  <TouchableOpacity
-                    key={template.id}
-                    style={[
-                      styles.templateCard,
-                      isSelected ? styles.templateCardSelected : undefined,
-                      isCustom ? styles.templateCardCustom : undefined,
-                    ]}
-                    onPress={() => toggleTemplateSelection(template.id)}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={styles.templateIcon}>{template.icon}</Text>
-                    <Text style={[styles.templateName, isSelected ? styles.templateNameSelected : undefined]}>
-                      {template.name}
-                    </Text>
-                    <Text style={[styles.templateTaskCount, isSelected ? styles.templateTaskCountSelected : undefined]}>
-                      {String(template.tasks.length)} tasks
-                    </Text>
-                  </TouchableOpacity>
+                  <View key={template.id} style={styles.templateCardWrapper}>
+                    <TouchableOpacity
+                      style={[
+                        styles.templateCard,
+                        isSelected ? styles.templateCardSelected : undefined,
+                        isCustom ? styles.templateCardCustom : undefined,
+                      ]}
+                      onPress={() => toggleTemplateSelection(template.id)}
+                      activeOpacity={0.7}
+                    >
+                      <Text style={styles.templateIcon}>{template.icon}</Text>
+                      <Text style={[styles.templateName, isSelected ? styles.templateNameSelected : undefined]}>
+                        {template.name}
+                      </Text>
+                      <Text style={[styles.templateTaskCount, isSelected ? styles.templateTaskCountSelected : undefined]}>
+                        {String(template.tasks.length)} tasks
+                      </Text>
+                      
+                      <View style={styles.templateActionsOverlay}>
+                        <TouchableOpacity
+                          style={styles.editButton}
+                          onPress={(e) => {
+                            e.stopPropagation();
+                            handleEditTemplate(template);
+                          }}
+                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        >
+                          <Text style={styles.editButtonIcon}>✏️</Text>
+                        </TouchableOpacity>
+                        {isCustom && (
+                          <TouchableOpacity
+                            style={styles.deleteButton}
+                            onPress={(e) => {
+                              e.stopPropagation();
+                              handleDeleteTemplate(template.id);
+                            }}
+                            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                          >
+                            <Text style={styles.deleteButtonIcon}>✖</Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                  </View>
                 );
               })}
             </View>
@@ -472,9 +544,17 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
         <View style={styles.createTemplateOverlay}>
           <View style={styles.createTemplateModal}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Create Custom Template</Text>
+              <Text style={styles.modalTitle}>
+                {editingTemplateId ? 'Edit Template' : 'Create Custom Template'}
+              </Text>
               <TouchableOpacity
-                onPress={() => setShowCreateTemplate(false)}
+                onPress={() => {
+                  setShowCreateTemplate(false);
+                  setEditingTemplateId(null);
+                  setNewTemplateName('');
+                  setNewTemplateIcon('⭐');
+                  setTemplateTaskInputs([{ description: '', time: '08:00' }]);
+                }}
                 style={styles.closeButton}
               >
                 <Text style={styles.closeButtonText}>×</Text>
@@ -552,7 +632,9 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
                   style={[styles.button, styles.saveButton]}
                   onPress={handleSaveCustomTemplate}
                 >
-                  <Text style={styles.saveButtonText}>Save Template</Text>
+                  <Text style={styles.saveButtonText}>
+                    {editingTemplateId ? 'Update Template' : 'Save Template'}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </ScrollView>
@@ -693,21 +775,18 @@ const styles = StyleSheet.create({
     color: '#757575',
     marginTop: 4,
   },
-  templatesHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: Theme.spacing.sm,
-  },
   createTemplateButton: {
     backgroundColor: '#4CAF50',
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingVertical: 10,
     borderRadius: 8,
+    alignSelf: 'flex-start',
+    marginTop: 12,
+    marginBottom: 16,
   },
   createTemplateButtonText: {
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
   },
   templatesGrid: {
@@ -715,14 +794,21 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 12,
   },
-  templateCard: {
+  templateCardWrapper: {
     width: '48%',
+    position: 'relative',
+    overflow: 'visible',
+  },
+  templateCard: {
+    width: '100%',
     padding: 16,
+    paddingTop: 40,
     borderWidth: 2,
     borderColor: '#E0E0E0',
     borderRadius: 12,
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
+    position: 'relative',
   },
   templateCardSelected: {
     borderColor: '#667eea',
@@ -752,6 +838,56 @@ const styles = StyleSheet.create({
   },
   templateTaskCountSelected: {
     color: 'rgba(255, 255, 255, 0.8)',
+  },
+  templateActionsOverlay: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    flexDirection: 'row',
+    gap: 6,
+    zIndex: 10,
+    elevation: 10,
+  },
+  editButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#2196F3',
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    elevation: 5,
+    zIndex: 11,
+  },
+  editButtonIcon: {
+    fontSize: 14,
+    color: '#FFFFFF',
+  },
+  deleteButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#F44336',
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    elevation: 5,
+    zIndex: 11,
+  },
+  deleteButtonIcon: {
+    fontSize: 12,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
   previewHeader: {
     flexDirection: 'row',
