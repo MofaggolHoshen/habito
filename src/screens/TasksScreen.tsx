@@ -26,7 +26,7 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ route, navigation }) => {
   const { getRating, setRating } = useRatings();
 
   const dateString = date || '';
-  const [sliderValue, setSliderValue] = useState(getRating(dateString) || 5);
+  const [sliderValue, setSliderValue] = useState(getRating(dateString) || 0);
 
   // Update selected date when screen loads
   useEffect(() => {
