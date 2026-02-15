@@ -207,17 +207,10 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
   const handleEditTemplate = (template: Template) => {
     console.log('Edit template clicked:', template.name, 'isDefault:', template.isDefault, 'id:', template.id);
     
-    if (template.isDefault) {
-      // For default templates, create a new template as a copy
-      console.log('Default template - creating copy');
-      setEditingTemplateId(null);
-      setNewTemplateName(template.name + ' (Copy)');
-    } else {
-      // For custom templates, edit the existing one
-      console.log('Custom template - editing existing, id:', template.id);
-      setEditingTemplateId(template.id);
-      setNewTemplateName(template.name);
-    }
+    // Always edit the existing template (both default and custom)
+    console.log('Editing existing template, id:', template.id);
+    setEditingTemplateId(template.id);
+    setNewTemplateName(template.name);
     setNewTemplateIcon(template.icon);
     setTemplateTaskInputs(template.tasks.map(t => ({
       description: t.description,

@@ -496,6 +496,177 @@ export async function deleteRating(date: string): Promise<void> {
 }
 
 // ============================================
+// TEMPLATE OPERATIONS
+// ============================================
+
+/**
+ * Get all templates
+ */
+export async function getAllTemplates(): Promise<any[]> {
+  if (!db) throw new Error('Database not initialized');
+
+  try {
+    const result = await db.executeSql(
+      'SELECT * FROM templates ORDER BY isDefault DESC, name ASC'
+    );
+
+    const templates: any[] = [];
+    for (let i = 0; i < result[0].rows.length; i++) {
+      const row = result[0].rows.item(i);
+      templates.push({
+        ...row,
+        tasks: JSON.parse(row.tasks),
+        isDefault: row.isDefault === 1,
+      });
+    }
+
+    return templates;
+  } catch (error) {
+    console.error('[DB] Failed to get templates:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get a template by ID
+ */
+export async function getTemplate(id: string): Promise<any | null> {
+  if (!db) throw new Error('Database not initialized');
+
+  try {
+    const result = await db.executeSql(
+      'SELECT * FROM templates WHERE id = ?',
+      [id]
+    );
+
+    if (result[0].rows.length === 0) {
+      return null;
+    }
+
+    const row = result[0].rows.item(0);
+    return {
+      ...row,
+      tasks: JSON.parse(row.tasks),
+      isDefault: row.isDefault === 1,
+    };
+  } catch (error) {
+    console.error('[DB] Failed to get template:', error);
+    throw error;
+  }
+}
+
+/**
+ * Add a new template
+ */
+export async function addTemplate(template: any): Promise<any> {
+  if (!db) throw new Error('Database not initialized');
+
+  try {
+    const now = new Date().toISOString();
+    await db.executeSql(
+      `INSERT INTO templates (id, name, icon, isDefault, tasks, createdAt, updatedAt)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        template.id,
+        template.name,
+        template.icon,
+        template.isDefault ? 1 : 0,
+        JSON.stringify(template.tasks),
+        now,
+        now,
+      ]
+    );
+
+    console.log('[DB] Template added:', template.id);
+    return template;
+  } catch (error) {
+    console.error('[DB] Failed to add template:', error);
+    throw error;
+  }
+}
+
+/**
+ * Update a template
+ */
+export async function updateTemplateInDB(
+  id: string,
+  updates: Partial<any>
+): Promise<any> {
+  if (!db) throw new Error('Database not initialized');
+
+  try {
+    const fields: string[] = [];
+    const values: any[] = [];
+
+    if (updates.name !== undefined) {
+      fields.push('name = ?');
+      values.push(updates.name);
+    }
+    if (updates.icon !== undefined) {
+      fields.push('icon = ?');
+      values.push(updates.icon);
+    }
+    if (updates.tasks !== undefined) {
+      fields.push('tasks = ?');
+      values.push(JSON.stringify(updates.tasks));
+    }
+    if (updates.isDefault !== undefined) {
+      fields.push('isDefault = ?');
+      values.push(updates.isDefault ? 1 : 0);
+    }
+
+    // Always update the updatedAt timestamp
+    fields.push('updatedAt = ?');
+    values.push(new Date().toISOString());
+
+    if (fields.length > 1) {
+      // More than just updatedAt
+      const setClause = fields.join(', ');
+      await db.executeSql(
+        `UPDATE templates SET ${setClause} WHERE id = ?`,
+        [...values, id]
+      );
+
+      console.log('[DB] Template updated:', id);
+    }
+
+    // Fetch and return updated template
+    const result = await db.executeSql('SELECT * FROM templates WHERE id = ?', [
+      id,
+    ]);
+
+    if (result[0].rows.length === 0) {
+      throw new Error('Template not found after update');
+    }
+
+    const row = result[0].rows.item(0);
+    return {
+      ...row,
+      tasks: JSON.parse(row.tasks),
+      isDefault: row.isDefault === 1,
+    };
+  } catch (error) {
+    console.error('[DB] Failed to update template:', error);
+    throw error;
+  }
+}
+
+/**
+ * Delete a template
+ */
+export async function deleteTemplateFromDB(id: string): Promise<void> {
+  if (!db) throw new Error('Database not initialized');
+
+  try {
+    await db.executeSql('DELETE FROM templates WHERE id = ?', [id]);
+    console.log('[DB] Template deleted:', id);
+  } catch (error) {
+    console.error('[DB] Failed to delete template:', error);
+    throw error;
+  }
+}
+
+// ============================================
 // SETTINGS OPERATIONS
 // ============================================
 
