@@ -412,13 +412,7 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
                           style={styles.deleteButton}
                           onPress={(e) => {
                             e.stopPropagation();
-                            if (isCustom) {
-                              handleDeleteTemplate(template.id);
-                            } else {
-                              // Show alert for default templates
-                              setError('Cannot delete default templates. You can only delete custom templates.');
-                              setTimeout(() => setError(null), 3000);
-                            }
+                            handleDeleteTemplate(template.id);
                           }}
                           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                         >
