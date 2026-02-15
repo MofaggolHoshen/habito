@@ -363,15 +363,17 @@ const AddTaskModalScreen: React.FC<AddTaskModalScreenProps> = ({ route, navigati
 
           {/* Templates Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionLabel}>Or Choose from Templates (Optional)</Text>
-            
-            <TouchableOpacity
-              style={styles.createTemplateButton}
-              onPress={() => setShowCreateTemplate(true)}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.createTemplateButtonText}>+ Create Template</Text>
-            </TouchableOpacity>
+            <View style={styles.templateSectionHeader}>
+              <Text style={styles.templateSectionLabel}>Or Choose from Templates {'\n'} (Optional)</Text>
+              
+              <TouchableOpacity
+                style={styles.createTemplateButton}
+                onPress={() => setShowCreateTemplate(true)}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.createTemplateButtonText}>+ Create Template</Text>
+              </TouchableOpacity>
+            </View>
 
             <View style={styles.templatesGrid}>
               {allTemplates.map(template => {
@@ -774,14 +776,24 @@ const styles = StyleSheet.create({
     color: '#757575',
     marginTop: 4,
   },
+  templateSectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: Theme.spacing.md,
+  },
+  templateSectionLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#212121',
+    flex: 1,
+  },
   createTemplateButton: {
     backgroundColor: '#4CAF50',
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 8,
-    alignSelf: 'flex-start',
-    marginTop: 12,
-    marginBottom: 16,
+    alignSelf: 'center',
   },
   createTemplateButtonText: {
     color: '#FFFFFF',
