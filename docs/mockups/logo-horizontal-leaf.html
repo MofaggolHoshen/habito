@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habito - Horizontal Leaf Logo Concepts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 48px;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+            margin-bottom: 48px;
+        }
+
+        .logos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .logo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .logo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .logo-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            text-align: center;
+            min-height: 40px;
+        }
+
+        .logo-display {
+            width: 100%;
+            height: 200px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        /* Logo 1: Classic Horizontal Leaf */
+        .logo1 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo1-leaf {
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 0 50px 50px 0;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+        }
+
+        .logo1-leaf::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            right: 10px;
+            height: 3px;
+            background: linear-gradient(90deg, #2E7D32, transparent);
+            transform: translateY(-50%);
+        }
+
+        .logo1-leaf::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 12px solid #2E7D32;
+        }
+
+        .logo1-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: #2E7D32;
+            font-family: Arial, sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* Logo 2: Oval Leaf */
+        .logo2 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo2-leaf {
+            width: 90px;
+            height: 55px;
+            background: linear-gradient(135deg, #43A047, #66BB6A);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(67, 160, 71, 0.3);
+        }
+
+        .logo2-leaf::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            right: 15px;
+            height: 3px;
+            background: linear-gradient(90deg, #1B5E20, transparent);
+            transform: translateY(-50%);
+        }
+
+        .logo2-leaf::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            width: 20px;
+            height: 3px;
+            background: #2E7D32;
+            transform: translateY(-50%) rotate(-30deg);
+            border-radius: 2px;
+        }
+
+        .logo2-tip {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 15px solid #66BB6A;
+        }
+
+        .logo2-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: #2E7D32;
+            font-family: Arial, sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* Logo 3: Rounded Rectangle Leaf */
+        .logo3 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo3-leaf {
+            width: 85px;
+            height: 50px;
+            background: linear-gradient(135deg, #388E3C, #66BB6A);
+            border-radius: 25px 50px 50px 25px;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(56, 142, 60, 0.3);
+        }
+
+        .logo3-leaf::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            right: 15px;
+            height: 2px;
+            background: linear-gradient(90deg, #1B5E20, transparent);
+            transform: translateY(-50%);
+        }
+
+        .logo3-leaf::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 35%;
+            right: 25px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(27, 94, 32, 0.5), transparent);
+            transform: translateY(-50%);
+        }
+
+        .logo3-stem {
+            position: absolute;
+            left: 10px;
+            bottom: -3px;
+            width: 3px;
+            height: 20px;
+            background: #2E7D32;
+            border-radius: 2px;
+            transform: rotate(-20deg);
+        }
+
+        .logo3-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: #2E7D32;
+            font-family: Arial, sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* Logo 4: Simple Clean Leaf */
+        .logo4 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo4-leaf {
+            width: 100px;
+            height: 60px;
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            clip-path: ellipse(50% 50% at 50% 50%);
+            position: relative;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+        }
+
+        .logo4-leaf::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            width: 70%;
+            height: 3px;
+            background: linear-gradient(90deg, #2E7D32, transparent);
+            transform: translateY(-50%);
+        }
+
+        .logo4-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: #2E7D32;
+            font-family: Arial, sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* Logo 5: Bold Leaf with Shadow */
+        .logo5 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo5-leaf {
+            width: 75px;
+            height: 55px;
+            background: linear-gradient(135deg, #43A047, #66BB6A);
+            border-radius: 50% 0 0 50%;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(67, 160, 71, 0.4);
+        }
+
+        .logo5-leaf::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            right: 10px;
+            height: 3px;
+            background: linear-gradient(90deg, #1B5E20 30%, transparent);
+            transform: translateY(-50%);
+        }
+
+        .logo5-leaf::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 18px solid #66BB6A;
+            transform: translateY(-50%);
+        }
+
+        .logo5-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: #2E7D32;
+            font-family: Arial, sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* Logo 6: Stylized Modern Leaf */
+        .logo6 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo6-leaf {
+            width: 85px;
+            height: 50px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 10px 50px 50px 10px;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+        }
+
+        .logo6-vein {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            width: 65%;
+            height: 2px;
+            background: #2E7D32;
+            transform: translateY(-50%);
+        }
+
+        .logo6-vein::before {
+            content: '';
+            position: absolute;
+            left: 20%;
+            top: -8px;
+            width: 20px;
+            height: 2px;
+            background: rgba(46, 125, 50, 0.6);
+            transform: rotate(-45deg);
+        }
+
+        .logo6-vein::after {
+            content: '';
+            position: absolute;
+            left: 20%;
+            bottom: -8px;
+            width: 20px;
+            height: 2px;
+            background: rgba(46, 125, 50, 0.6);
+            transform: rotate(45deg);
+        }
+
+        .logo6-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: #2E7D32;
+            font-family: Arial, sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* Logo 7: Gradient Leaf */
+        .logo7 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo7-leaf {
+            width: 90px;
+            height: 55px;
+            background: linear-gradient(90deg, #2E7D32, #4CAF50, #66BB6A);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+        }
+
+        .logo7-leaf::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            right: 15px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%);
+            border-radius: 2px;
+        }
+
+        .logo7-text {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #2E7D32, #4CAF50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: Arial, sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* Logo 8: Circle in Leaf */
+        .logo8 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo8-container {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+        }
+
+        .logo8-leaf {
+            width: 45px;
+            height: 35px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .logo8-leaf::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 30px;
+            height: 2px;
+            background: #4CAF50;
+            transform: translate(-50%, -50%);
+        }
+
+        .logo8-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: #2E7D32;
+            font-family: Arial, sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer h2 {
+            margin-bottom: 16px;
+            font-size: 28px;
+        }
+
+        .footer p {
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+
+        .recommendation {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 12px 24px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .logos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍃 Habito - Horizontal Leaf Logos</h1>
+        <p class="subtitle">Leaf + Brand Name - Professional horizontal layouts</p>
+
+        <div class="logos-grid">
+            <!-- Logo 1 -->
+            <div class="logo-card">
+                <h3 class="logo-title">1. Classic Horizontal</h3>
+                <p class="logo-description">Rounded horizontal leaf with vein & pointed tip</p>
+                <div class="logo-display">
+                    <div class="logo1">
+                        <div class="logo1-leaf"></div>
+                        <div class="logo1-text">habito</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Style:</strong> Professional & Clean<br>
+                    <strong>Best for:</strong> Full branding<br>
+                    <strong>Rating:</strong> ⭐⭐⭐⭐⭐
+                </div>
+            </div>
+
+            <!-- Logo 2 -->
+            <div class="logo-card">
+                <h3 class="logo-title">2. Oval Leaf</h3>
+                <p class="logo-description">Smooth oval shape with central vein & stem</p>
+                <div class="logo-display">
+                    <div class="logo2">
+                        <div class="logo2-leaf">
+                            <div class="logo2-tip"></div>
+                        </div>
+                        <div class="logo2-text">habito</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Style:</strong> Natural & Organic<br>
+                    <strong>Best for:</strong> Brand identity<br>
+                    <strong>Rating:</strong> ⭐⭐⭐⭐⭐
+                </div>
+            </div>
+
+            <!-- Logo 3 -->
+            <div class="logo-card">
+                <h3 class="logo-title">3. Rounded Rectangle</h3>
+                <p class="logo-description">Modern rounded shape with double vein</p>
+                <div class="logo-display">
+                    <div class="logo3">
+                        <div class="logo3-leaf">
+                            <div class="logo3-stem"></div>
+                        </div>
+                        <div class="logo3-text">habito</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Style:</strong> Modern & Structured<br>
+                    <strong>Best for:</strong> Tech aesthetic<br>
+                    <strong>Rating:</strong> ⭐⭐⭐⭐⭐
+                </div>
+            </div>
+
+            <!-- Logo 4 -->
+            <div class="logo-card">
+                <h3 class="logo-title">4. Simple Ellipse</h3>
+                <p class="logo-description">Clean elliptical leaf - ultra minimal</p>
+                <div class="logo-display">
+                    <div class="logo4">
+                        <div class="logo4-leaf"></div>
+                        <div class="logo4-text">habito</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Style:</strong> Minimal & Clean<br>
+                    <strong>Best for:</strong> Simple branding<br>
+                    <strong>Rating:</strong> ⭐⭐⭐⭐⭐
+                </div>
+            </div>
+
+            <!-- Logo 5 -->
+            <div class="logo-card">
+                <h3 class="logo-title">5. Bold Leaf</h3>
+                <p class="logo-description">Half-circle leaf with sharp tip</p>
+                <div class="logo-display">
+                    <div class="logo5">
+                        <div class="logo5-leaf"></div>
+                        <div class="logo5-text">habito</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Style:</strong> Bold & Distinctive<br>
+                    <strong>Best for:</strong> Strong identity<br>
+                    <strong>Rating:</strong> ⭐⭐⭐⭐⭐
+                </div>
+            </div>
+
+            <!-- Logo 6 -->
+            <div class="logo-card">
+                <h3 class="logo-title">6. Modern Stylized</h3>
+                <p class="logo-description">Contemporary leaf with branching veins</p>
+                <div class="logo-display">
+                    <div class="logo6">
+                        <div class="logo6-leaf">
+                            <div class="logo6-vein"></div>
+                        </div>
+                        <div class="logo6-text">habito</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Style:</strong> Contemporary & Detailed<br>
+                    <strong>Best for:</strong> Premium feel<br>
+                    <strong>Rating:</strong> ⭐⭐⭐⭐⭐
+                </div>
+            </div>
+
+            <!-- Logo 7 -->
+            <div class="logo-card">
+                <h3 class="logo-title">7. Gradient Flow</h3>
+                <p class="logo-description">Flowing gradient across leaf & text</p>
+                <div class="logo-display">
+                    <div class="logo7">
+                        <div class="logo7-leaf"></div>
+                        <div class="logo7-text">habito</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Style:</strong> Dynamic & Flowing<br>
+                    <strong>Best for:</strong> Visual impact<br>
+                    <strong>Rating:</strong> ⭐⭐⭐⭐⭐
+                </div>
+            </div>
+
+            <!-- Logo 8 -->
+            <div class="logo-card">
+                <h3 class="logo-title">8. Circle Badge</h3>
+                <p class="logo-description">Leaf in circular badge format</p>
+                <div class="logo-display">
+                    <div class="logo8">
+                        <div class="logo8-container">
+                            <div class="logo8-leaf"></div>
+                        </div>
+                        <div class="logo8-text">habito</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Style:</strong> Badge & Wordmark<br>
+                    <strong>Best for:</strong> Complete system<br>
+                    <strong>Rating:</strong> ⭐⭐⭐⭐⭐
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h2>🍃 Top Recommendations</h2>
+            
+            <p><strong>#1 Choice: Logo 2 (Oval Leaf)</strong> ⭐<br>
+            Most similar to your reference image. Natural oval shape with visible vein, pointed tip, and small stem. Perfect balance of simplicity and detail.</p>
+            
+            <p><strong>#2 Choice: Logo 1 (Classic Horizontal)</strong><br>
+            Clean horizontal leaf with clear vein line. Professional and immediately recognizable. Great for all applications.</p>
+            
+            <p><strong>#3 Choice: Logo 6 (Modern Stylized)</strong><br>
+            Contemporary design with branching veins. Adds sophistication while maintaining clarity. Perfect for premium positioning.</p>
+            
+            <div class="recommendation">🌱 Recommended: Logo #2 matches your vision perfectly!</div>
+        </div>
+    </div>
+</body>
+</html>

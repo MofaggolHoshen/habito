@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habito - Ultra Simple Logos (No Letters)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 48px;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+            margin-bottom: 48px;
+        }
+
+        .principle {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .principle h3 {
+            margin-bottom: 12px;
+            font-size: 24px;
+        }
+
+        .logos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .logo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .logo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .logo-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            text-align: center;
+            min-height: 40px;
+        }
+
+        .logo-display {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        /* Logo 1: Single Check */
+        .logo1 {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        .logo1-check::before {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 40px;
+            background: #667eea;
+            bottom: 25px;
+            left: 28px;
+            transform: rotate(-45deg);
+            border-radius: 7px;
+        }
+
+        .logo1-check::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 70px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            bottom: 25px;
+            right: 15px;
+            transform: rotate(45deg);
+            border-radius: 7px;
+        }
+
+        /* Logo 2: Single Dot */
+        .logo2 {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+        }
+
+        /* Logo 3: Two Dots */
+        .logo3 {
+            display: flex;
+            gap: 16px;
+        }
+
+        .logo3-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .logo3-dot:nth-child(1) {
+            background: #667eea;
+        }
+
+        .logo3-dot:nth-child(2) {
+            background: #764ba2;
+        }
+
+        /* Logo 4: Simple Arc */
+        .logo4 {
+            width: 100px;
+            height: 60px;
+            border: 16px solid;
+            border-image: linear-gradient(90deg, #667eea, #764ba2) 1;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-radius: 0 0 80px 80px;
+        }
+
+        /* Logo 5: Vertical Bars */
+        .logo5 {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .logo5-bar {
+            width: 20px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .logo5-bar:nth-child(1) {
+            height: 40px;
+            background: #667eea;
+        }
+
+        .logo5-bar:nth-child(2) {
+            height: 60px;
+            background: #7682ec;
+        }
+
+        .logo5-bar:nth-child(3) {
+            height: 80px;
+            background: #764ba2;
+        }
+
+        /* Logo 6: Circle with Segment */
+        .logo6 {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from -90deg,
+                #667eea 0deg,
+                #764ba2 270deg,
+                #e0e0e0 270deg
+            );
+        }
+
+        /* Logo 7: Square with Corner */
+        .logo7 {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .logo7::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
+            border-radius: 50%;
+        }
+
+        /* Logo 8: Diamond */
+        .logo8 {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transform: rotate(45deg);
+            border-radius: 12px;
+        }
+
+        /* Logo 9: Wave */
+        .logo9 {
+            width: 100px;
+            height: 60px;
+            position: relative;
+        }
+
+        .logo9-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: #667eea;
+            border-radius: 50px 50px 0 0;
+        }
+
+        .logo9-wave::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: #764ba2;
+            border-radius: 50px 50px 0 0;
+            opacity: 0.6;
+        }
+
+        /* Logo 10: Leaf */
+        .logo10 {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        .logo10-leaf {
+            width: 70px;
+            height: 90px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            position: relative;
+        }
+
+        .logo10-leaf::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            right: 10px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #2E7D32, transparent);
+            transform: translateY(-50%) rotate(-10deg);
+        }
+
+        .logo10-leaf::after {
+            content: '';
+            position: absolute;
+            top: 65%;
+            left: 12px;
+            right: 12px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(46, 125, 50, 0.6), transparent);
+            transform: translateY(-50%) rotate(-15deg);
+        }
+
+        .logo10-stem {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 30px;
+            background: linear-gradient(180deg, #2E7D32, #1B5E20);
+            border-radius: 2px;
+        }
+
+        /* Logo 11: Triangle */
+        .logo11 {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 85px solid;
+            border-image: linear-gradient(to top, #764ba2, #667eea) 1;
+        }
+
+        /* Logo 12: Concentric Circles */
+        .logo12 {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 12px solid #667eea;
+            position: relative;
+        }
+
+        .logo12::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background: #764ba2;
+            border-radius: 50%;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer h2 {
+            margin-bottom: 16px;
+            font-size: 28px;
+        }
+
+        .footer p {
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+
+        .recommendation {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 12px 24px;
+            background: #FFD700;
+            color: #764ba2;
+            border-radius: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+        }
+
+        .metric {
+            display: inline-block;
+            margin: 8px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .logos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Habito - Ultra Simple Symbols</h1>
+        <p class="subtitle">Pure shapes that represent habit tracking - No letters needed</p>
+
+        <div class="principle">
+            <h3>🎯 Design Philosophy</h3>
+            <p>
+                <span class="metric">Simple Shapes</span>
+                <span class="metric">Universal Recognition</span>
+                <span class="metric">Instant Memory</span>
+                <span class="metric">Works Tiny</span>
+            </p>
+        </div>
+
+        <div class="logos-grid">
+            <!-- Logo 1: Check -->
+            <div class="logo-card">
+                <h3 class="logo-title">1. Check</h3>
+                <p class="logo-description">Pure checkmark - completion symbol</p>
+                <div class="logo-display">
+                    <div class="logo1">
+                        <div class="logo1-check"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Task done<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Recognition:</strong> Universal
+                </div>
+            </div>
+
+            <!-- Logo 2: Dot -->
+            <div class="logo-card">
+                <h3 class="logo-title">2. Dot</h3>
+                <p class="logo-description">Single gradient circle</p>
+                <div class="logo-display">
+                    <div class="logo2"></div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Focus point<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Minimal:</strong> Ultimate
+                </div>
+            </div>
+
+            <!-- Logo 3: Two Dots -->
+            <div class="logo-card">
+                <h3 class="logo-title">3. Two Dots</h3>
+                <p class="logo-description">Two circles - connection</p>
+                <div class="logo-display">
+                    <div class="logo3">
+                        <div class="logo3-dot"></div>
+                        <div class="logo3-dot"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Daily connection<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Balance:</strong> Perfect
+                </div>
+            </div>
+
+            <!-- Logo 4: Arc -->
+            <div class="logo-card">
+                <h3 class="logo-title">4. Arc</h3>
+                <p class="logo-description">Sunrise arc - new day</p>
+                <div class="logo-display">
+                    <div class="logo4"></div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Daily renewal<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Optimism:</strong> High
+                </div>
+            </div>
+
+            <!-- Logo 5: Bars -->
+            <div class="logo-card">
+                <h3 class="logo-title">5. Bars</h3>
+                <p class="logo-description">Three rising bars - growth</p>
+                <div class="logo-display">
+                    <div class="logo5">
+                        <div class="logo5-bar"></div>
+                        <div class="logo5-bar"></div>
+                        <div class="logo5-bar"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Progress<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Impact:</strong> Clear growth
+                </div>
+            </div>
+
+            <!-- Logo 6: Circle Segment -->
+            <div class="logo-card">
+                <h3 class="logo-title">6. Progress Circle</h3>
+                <p class="logo-description">75% complete circle</p>
+                <div class="logo-display">
+                    <div class="logo6"></div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Daily progress<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Visual:</strong> Shows completion
+                </div>
+            </div>
+
+            <!-- Logo 7: Square with Dot -->
+            <div class="logo-card">
+                <h3 class="logo-title">7. Badge</h3>
+                <p class="logo-description">Square with gold accent</p>
+                <div class="logo-display">
+                    <div class="logo7"></div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Achievement<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Style:</strong> Modern
+                </div>
+            </div>
+
+            <!-- Logo 8: Diamond -->
+            <div class="logo-card">
+                <h3 class="logo-title">8. Diamond</h3>
+                <p class="logo-description">Rotated square - unique</p>
+                <div class="logo-display">
+                    <div class="logo8"></div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Valuable habit<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Memorable:</strong> Very
+                </div>
+            </div>
+
+            <!-- Logo 9: Wave -->
+            <div class="logo-card">
+                <h3 class="logo-title">9. Wave</h3>
+                <p class="logo-description">Flowing waves - consistency</p>
+                <div class="logo-display">
+                    <div class="logo9">
+                        <div class="logo9-wave"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Flow & rhythm<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Feel:</strong> Calm, steady
+                </div>
+            </div>
+
+            <!-- Logo 10: Leaf -->
+            <div class="logo-card">
+                <h3 class="logo-title">10. Leaf</h3>
+                <p class="logo-description">Natural green leaf with veins</p>
+                <div class="logo-display">
+                    <div class="logo10">
+                        <div class="logo10-leaf"></div>
+                        <div class="logo10-stem"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Natural habit growth<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Nature:</strong> Fresh & organic
+                </div>
+            </div>
+
+            <!-- Logo 11: Triangle -->
+            <div class="logo-card">
+                <h3 class="logo-title">11. Triangle</h3>
+                <p class="logo-description">Upward pointing - aspiration</p>
+                <div class="logo-display">
+                    <div class="logo11"></div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Upward movement<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Direction:</strong> Clear goal
+                </div>
+            </div>
+
+            <!-- Logo 12: Concentric -->
+            <div class="logo-card">
+                <h3 class="logo-title">12. Target</h3>
+                <p class="logo-description">Focus & precision</p>
+                <div class="logo-display">
+                    <div class="logo12"></div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Meaning:</strong> Focused goal<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Clarity:</strong> Centered
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h2>🏆 Best 3 Recommendations</h2>
+            
+            <p><strong>#1 - Check (Logo 1)</strong> ⭐ TOP CHOICE<br>
+            Universal symbol everyone understands instantly. Says "habits completed" without words.</p>
+            
+            <p><strong>#2 - Progress Circle (Logo 6)</strong><br>
+            Shows progress visually. The incomplete part represents "keep going" - perfect for habit tracking.</p>
+            
+            <p><strong>#3 - Bars (Logo 5)</strong><br>
+            Three rising bars = growth. Simple, clear, and shows improvement at a glance.</p>
+            
+            <div class="recommendation">✅ Choose Logo 1 (Check) for instant recognition</div>
+        </div>
+    </div>
+</body>
+</html>
