@@ -7,3 +7,4 @@ export { FloatingActionButton } from './FloatingActionButton';
 export { DateBadge } from './DateBadge';
 export { ModalHeader } from './ModalHeader';
 export { AppFooter } from './AppFooter';
+export { HabitoLogo } from './HabitoLogo';
