@@ -1,11 +1,12 @@
 /**
  * HabitoLogo Component
  * Hexagon logo with "H" and achievement dot
+ * Using React Native Text for better compatibility
  */
 
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import Svg, { Defs, LinearGradient, Stop, Polygon, Text as SvgText, Circle } from 'react-native-svg';
+import { View, Text, StyleSheet } from 'react-native';
+import Svg, { Defs, LinearGradient, Stop, Polygon, Circle } from 'react-native-svg';
 
 interface HabitoLogoProps {
   size?: number;
@@ -13,13 +14,12 @@ interface HabitoLogoProps {
 }
 
 export const HabitoLogo: React.FC<HabitoLogoProps> = ({ size = 160, showDot = true }) => {
-  const dotSize = size * 0.125; // 20px for 160px logo
-  const fontSize = size * 0.5; // 80px for 160px logo
+  const dotSize = size * 0.125;
+  const fontSize = size * 0.5;
 
   return (
     <View style={[styles.container, { width: size, height: size }]}>
-      <Svg width={size} height={size} viewBox="0 0 160 160">
-        {/* Gradient Definition */}
+      <Svg width={size} height={size} viewBox="0 0 160 160" style={styles.svg}>
         <Defs>
           <LinearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <Stop offset="0%" stopColor="#667eea" stopOpacity="1" />
@@ -27,26 +27,11 @@ export const HabitoLogo: React.FC<HabitoLogoProps> = ({ size = 160, showDot = tr
           </LinearGradient>
         </Defs>
 
-        {/* Hexagon Shape */}
         <Polygon
           points="48,10 112,10 144,80 112,150 48,150 16,80"
           fill="url(#hexGrad)"
         />
 
-        {/* Letter H */}
-        <SvgText
-          x="80"
-          y="115"
-          fontSize={fontSize}
-          fontWeight="bold"
-          fill="white"
-          textAnchor="middle"
-          fontFamily="System"
-        >
-          H
-        </SvgText>
-
-        {/* Achievement Dot (Yellow Sun) */}
         {showDot && (
           <Circle
             cx="120"
@@ -57,6 +42,8 @@ export const HabitoLogo: React.FC<HabitoLogoProps> = ({ size = 160, showDot = tr
           />
         )}
       </Svg>
+      
+      <Text style={[styles.letter, { fontSize: fontSize }]}>H</Text>
     </View>
   );
 };
@@ -65,5 +52,17 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'relative',
+  },
+  svg: {
+    position: 'absolute',
+  },
+  letter: {
+    position: 'absolute',
+    color: 'white',
+    fontWeight: 'bold',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
   },
 });
