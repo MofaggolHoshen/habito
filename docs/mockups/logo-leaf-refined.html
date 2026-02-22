@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habito - 🍃 Refined Leaf Logo Concepts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 48px;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+            margin-bottom: 48px;
+        }
+
+        .logos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .logo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .logo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .logo-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            text-align: center;
+            min-height: 40px;
+        }
+
+        .logo-display {
+            width: 260px;
+            height: 260px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        /* Logo 1: Simple Single Leaf */
+        .logo1 {
+            width: 100px;
+            height: 130px;
+            position: relative;
+        }
+
+        .logo1-leaf {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #43A047, #66BB6A);
+            border-radius: 50% 0% 50% 50%;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(67, 160, 71, 0.4);
+        }
+
+        .logo1-vein {
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 3px;
+            background: linear-gradient(180deg, #2E7D32, #1B5E20);
+            border-radius: 2px;
+        }
+
+        .logo1-vein::before,
+        .logo1-vein::after {
+            content: '';
+            position: absolute;
+            height: 2px;
+            background: rgba(46, 125, 50, 0.6);
+            border-radius: 1px;
+        }
+
+        .logo1-vein::before {
+            top: 30%;
+            left: 3px;
+            width: 25px;
+            transform: rotate(45deg);
+        }
+
+        .logo1-vein::after {
+            bottom: 30%;
+            left: 3px;
+            width: 25px;
+            transform: rotate(-45deg);
+        }
+
+        /* Logo 2: Leaf Circle Badge */
+        .logo2 {
+            width: 140px;
+            height: 140px;
+            position: relative;
+        }
+
+        .logo2-circle {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .logo2-leaf {
+            width: 60px;
+            height: 75px;
+            background: white;
+            border-radius: 50% 0% 50% 50%;
+            position: relative;
+        }
+
+        .logo2-leaf::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 6px;
+            bottom: 6px;
+            width: 2px;
+            background: #4CAF50;
+            border-radius: 1px;
+        }
+
+        /* Logo 3: Two Leaves - Yin Yang Style */
+        .logo3 {
+            width: 140px;
+            height: 140px;
+            position: relative;
+        }
+
+        .logo3-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .logo3-leaf1 {
+            position: absolute;
+            width: 70px;
+            height: 90px;
+            background: white;
+            border-radius: 50% 0% 50% 50%;
+            top: 10px;
+            left: -10px;
+            transform: rotate(-30deg);
+            opacity: 0.9;
+        }
+
+        .logo3-leaf2 {
+            position: absolute;
+            width: 70px;
+            height: 90px;
+            background: #2E7D32;
+            border-radius: 50% 0% 50% 50%;
+            bottom: 10px;
+            right: -10px;
+            transform: rotate(150deg);
+        }
+
+        /* Logo 4: Leaf with Text - Compact */
+        .logo4 {
+            width: 220px;
+            height: 100px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo4-leaf {
+            width: 60px;
+            height: 75px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 50% 0% 50% 50%;
+            position: relative;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .logo4-leaf::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 6px;
+            bottom: 6px;
+            width: 2px;
+            background: #2E7D32;
+            border-radius: 1px;
+        }
+
+        .logo4-text {
+            font-size: 42px;
+            font-weight: 900;
+            color: #2E7D32;
+            font-family: Arial, sans-serif;
+            letter-spacing: -1px;
+        }
+
+        /* Logo 5: Three Leaf Progress */
+        .logo5 {
+            width: 180px;
+            height: 100px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .logo5-leaf {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 50% 0% 50% 50%;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .logo5-leaf:nth-child(1) {
+            width: 40px;
+            height: 50px;
+            opacity: 0.6;
+        }
+
+        .logo5-leaf:nth-child(2) {
+            width: 50px;
+            height: 65px;
+            opacity: 0.8;
+        }
+
+        .logo5-leaf:nth-child(3) {
+            width: 60px;
+            height: 80px;
+        }
+
+        /* Logo 6: Leaf Square Rounded */
+        .logo6 {
+            width: 140px;
+            height: 140px;
+            position: relative;
+        }
+
+        .logo6-square {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .logo6-leaf {
+            width: 70px;
+            height: 90px;
+            background: white;
+            border-radius: 50% 0% 50% 50%;
+            position: relative;
+        }
+
+        .logo6-leaf::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 7px;
+            bottom: 7px;
+            width: 2px;
+            background: #4CAF50;
+            border-radius: 1px;
+        }
+
+        /* Logo 7: Minimal Leaf Outline */
+        .logo7 {
+            width: 120px;
+            height: 140px;
+            position: relative;
+        }
+
+        .logo7-leaf {
+            width: 100%;
+            height: 100%;
+            border: 8px solid;
+            border-image: linear-gradient(135deg, #4CAF50, #66BB6A) 1;
+            border-radius: 50% 0% 50% 50%;
+            position: relative;
+        }
+
+        .logo7-leaf::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 3px;
+            background: linear-gradient(180deg, #4CAF50, #66BB6A);
+            border-radius: 2px;
+        }
+
+        /* Logo 8: Leaf with Dot Accent */
+        .logo8 {
+            width: 100px;
+            height: 130px;
+            position: relative;
+        }
+
+        .logo8-leaf {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 50% 0% 50% 50%;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .logo8-leaf::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 3px;
+            background: linear-gradient(180deg, #2E7D32, #1B5E20);
+            border-radius: 2px;
+        }
+
+        .logo8-dot {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Logo 9: Vertical Stack with Text */
+        .logo9 {
+            width: 140px;
+            height: 180px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo9-leaf {
+            width: 70px;
+            height: 90px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 50% 0% 50% 50%;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .logo9-leaf::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 7px;
+            bottom: 7px;
+            width: 2px;
+            background: #2E7D32;
+            border-radius: 1px;
+        }
+
+        .logo9-text {
+            font-size: 38px;
+            font-weight: 900;
+            color: #2E7D32;
+            font-family: Arial, sans-serif;
+            letter-spacing: -1px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer h2 {
+            margin-bottom: 16px;
+            font-size: 28px;
+        }
+
+        .footer p {
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+
+        .recommendation {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 12px 24px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .logos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍃 Habito - Refined Leaf Concepts</h1>
+        <p class="subtitle">Thoughtful, Clear & Natural - Leaf designs that represent growth</p>
+
+        <div class="logos-grid">
+            <!-- Logo 1: Simple Leaf -->
+            <div class="logo-card">
+                <h3 class="logo-title">1. Pure Leaf</h3>
+                <p class="logo-description">Single natural leaf with central vein - simple & clear</p>
+                <div class="logo-display">
+                    <div class="logo1">
+                        <div class="logo1-leaf">
+                            <div class="logo1-vein"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> App icon standalone<br>
+                    <strong>Clarity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Memorable:</strong> Instant recognition
+                </div>
+            </div>
+
+            <!-- Logo 2: Circle Badge -->
+            <div class="logo-card">
+                <h3 class="logo-title">2. Leaf Circle Badge</h3>
+                <p class="logo-description">White leaf on green circle - modern badge style</p>
+                <div class="logo-display">
+                    <div class="logo2">
+                        <div class="logo2-circle">
+                            <div class="logo2-leaf"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> App icon with contrast<br>
+                    <strong>Style:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Professional:</strong> Clean & modern
+                </div>
+            </div>
+
+            <!-- Logo 3: Yin Yang -->
+            <div class="logo-card">
+                <h3 class="logo-title">3. Balance Leaves</h3>
+                <p class="logo-description">Two leaves in harmony - balance & growth</p>
+                <div class="logo-display">
+                    <div class="logo3">
+                        <div class="logo3-container">
+                            <div class="logo3-leaf1"></div>
+                            <div class="logo3-leaf2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> Balance concept<br>
+                    <strong>Meaning:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Unique:</strong> Distinctive design
+                </div>
+            </div>
+
+            <!-- Logo 4: Compact with Text -->
+            <div class="logo-card">
+                <h3 class="logo-title">4. Leaf + "habito"</h3>
+                <p class="logo-description">Horizontal layout - leaf beside brand name</p>
+                <div class="logo-display">
+                    <div class="logo4">
+                        <div class="logo4-leaf"></div>
+                        <div class="logo4-text">habito</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> Full branding<br>
+                    <strong>Layout:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Complete:</strong> Icon + name together
+                </div>
+            </div>
+
+            <!-- Logo 5: Three Progress -->
+            <div class="logo-card">
+                <h3 class="logo-title">5. Growth Progression</h3>
+                <p class="logo-description">Three leaves growing - showing progress</p>
+                <div class="logo-display">
+                    <div class="logo5">
+                        <div class="logo5-leaf"></div>
+                        <div class="logo5-leaf"></div>
+                        <div class="logo5-leaf"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> Progress concept<br>
+                    <strong>Visual:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Meaning:</strong> Clear growth story
+                </div>
+            </div>
+
+            <!-- Logo 6: Square Badge -->
+            <div class="logo-card">
+                <h3 class="logo-title">6. Square Badge Leaf</h3>
+                <p class="logo-description">White leaf on green rounded square</p>
+                <div class="logo-display">
+                    <div class="logo6">
+                        <div class="logo6-square">
+                            <div class="logo6-leaf"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> App icon square format<br>
+                    <strong>Modern:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Fits:</strong> iOS/Android standards
+                </div>
+            </div>
+
+            <!-- Logo 7: Outline -->
+            <div class="logo-card">
+                <h3 class="logo-title">7. Minimal Outline</h3>
+                <p class="logo-description">Leaf outline only - ultra minimal</p>
+                <div class="logo-display">
+                    <div class="logo7">
+                        <div class="logo7-leaf"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> Minimal aesthetic<br>
+                    <strong>Simplicity:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Elegant:</strong> Sophisticated look
+                </div>
+            </div>
+
+            <!-- Logo 8: Dot Accent -->
+            <div class="logo-card">
+                <h3 class="logo-title">8. Leaf with Achievement</h3>
+                <p class="logo-description">Leaf with gold dot - achievement marker</p>
+                <div class="logo-display">
+                    <div class="logo8">
+                        <div class="logo8-leaf">
+                            <div class="logo8-dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> Success tracking<br>
+                    <strong>Accent:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Meaning:</strong> Achievement + growth
+                </div>
+            </div>
+
+            <!-- Logo 9: Vertical -->
+            <div class="logo-card">
+                <h3 class="logo-title">9. Stacked Logo</h3>
+                <p class="logo-description">Leaf above text - vertical branding</p>
+                <div class="logo-display">
+                    <div class="logo9">
+                        <div class="logo9-leaf"></div>
+                        <div class="logo9-text">habito</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> Social media profile<br>
+                    <strong>Vertical:</strong> ⭐⭐⭐⭐⭐<br>
+                    <strong>Compact:</strong> Works in squares
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h2>🍃 Final Recommendation</h2>
+            
+            <p><strong>For App Icon:</strong> Logo #2 (Leaf Circle Badge) or Logo #6 (Square Badge Leaf)<br>
+            Clean, professional, works perfectly at all sizes from 16px to 1024px.</p>
+            
+            <p><strong>For Complete Branding:</strong> Logo #4 (Leaf + "habito")<br>
+            Best of both worlds - memorable leaf icon establishes visual identity while text builds brand name recognition.</p>
+            
+            <p><strong>For Unique Identity:</strong> Logo #1 (Pure Leaf) or Logo #5 (Growth Progression)<br>
+            Simple, natural, and instantly represents habit growth without needing text.</p>
+            
+            <div class="recommendation">🌱 My Pick: Logo #2 or #4 for maximum impact</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habito - Logo Concepts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 48px;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+            margin-bottom: 48px;
+        }
+
+        .logos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .logo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .logo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .logo-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .logo-display {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Logo 1: Circular Progress Ring with Check */
+        .logo1 {
+            width: 160px;
+            height: 160px;
+            position: relative;
+        }
+
+        .logo1-ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                from -90deg,
+                #667eea 0deg,
+                #764ba2 270deg,
+                transparent 270deg
+            );
+            position: relative;
+        }
+
+        .logo1-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo1-check {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .logo1-check::before,
+        .logo1-check::after {
+            content: '';
+            position: absolute;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 4px;
+        }
+
+        .logo1-check::before {
+            width: 8px;
+            height: 30px;
+            bottom: 10px;
+            left: 15px;
+            transform: rotate(-45deg);
+        }
+
+        .logo1-check::after {
+            width: 8px;
+            height: 50px;
+            bottom: 10px;
+            right: 8px;
+            transform: rotate(45deg);
+        }
+
+        /* Logo 2: Calendar + Target Dot */
+        .logo2 {
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .logo2-cell {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .logo2-cell:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .logo2-cell.center {
+            background: white;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo2-cell.center::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+        }
+
+        /* Logo 3: Rising Bar Graph + Star */
+        .logo3 {
+            width: 160px;
+            height: 160px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 16px;
+            padding-bottom: 20px;
+        }
+
+        .logo3-bar {
+            width: 36px;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: height 0.5s ease;
+        }
+
+        .logo3-bar:nth-child(1) {
+            height: 60px;
+            background: linear-gradient(to top, #667eea, #8893f0);
+        }
+
+        .logo3-bar:nth-child(2) {
+            height: 90px;
+            background: linear-gradient(to top, #7682ec, #9ba3f3);
+        }
+
+        .logo3-bar:nth-child(3) {
+            height: 120px;
+            background: linear-gradient(to top, #764ba2, #a572c8);
+        }
+
+        .logo3-bar:nth-child(3)::after {
+            content: '★';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 32px;
+            color: #FFD700;
+        }
+
+        /* Logo 4: Infinity Loop with Dash */
+        .logo4 {
+            width: 180px;
+            height: 120px;
+            position: relative;
+        }
+
+        .logo4-infinity {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .logo4-loop-left,
+        .logo4-loop-right {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 12px solid;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .logo4-loop-left {
+            left: 0;
+            border-color: #667eea;
+            border-right-color: transparent;
+        }
+
+        .logo4-loop-right {
+            right: 0;
+            border-color: #764ba2;
+            border-left-color: transparent;
+        }
+
+        .logo4-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Logo 5: Stacked Layers + Arrow Up */
+        .logo5 {
+            width: 160px;
+            height: 160px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo5-layer {
+            height: 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .logo5-layer:nth-child(1) {
+            width: 140px;
+            background: linear-gradient(to right, #4a5ab8, #5d67c9);
+        }
+
+        .logo5-layer:nth-child(2) {
+            width: 120px;
+            background: linear-gradient(to right, #667eea, #7884ee);
+        }
+
+        .logo5-layer:nth-child(3) {
+            width: 100px;
+            background: linear-gradient(to right, #8893f0, #9ba3f3);
+        }
+
+        .logo5-layer:nth-child(4) {
+            width: 80px;
+            background: linear-gradient(to right, #a9b2f5, #bdc4f8);
+        }
+
+        .logo5-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 24px solid transparent;
+            border-right: 24px solid transparent;
+            border-bottom: 40px solid #FFD700;
+            top: 20px;
+            right: 10px;
+            filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.4));
+        }
+
+        .logo5-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 40px;
+            background: #FFD700;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer h2 {
+            margin-bottom: 16px;
+            font-size: 28px;
+        }
+
+        .footer p {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .recommendation {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 12px 24px;
+            background: #FFD700;
+            color: #764ba2;
+            border-radius: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .logos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Habito Logo Concepts</h1>
+        <p class="subtitle">5 Unique Logo Designs for Your Daily Habit Tracker</p>
+
+        <div class="logos-grid">
+            <!-- Logo 1 -->
+            <div class="logo-card">
+                <h3 class="logo-title">1. Circular Progress Ring</h3>
+                <p class="logo-description">⭕✓ Progress circle with checkmark - represents daily completion</p>
+                <div class="logo-display">
+                    <div class="logo1">
+                        <div class="logo1-ring">
+                            <div class="logo1-inner">
+                                <div class="logo1-check"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> App icon, universal recognition<br>
+                    <strong>Style:</strong> Modern, minimalist
+                </div>
+            </div>
+
+            <!-- Logo 2 -->
+            <div class="logo-card">
+                <h3 class="logo-title">2. Calendar + Target Dot</h3>
+                <p class="logo-description">📅🎯 Grid calendar with centered focus dot</p>
+                <div class="logo-display">
+                    <div class="logo2">
+                        <div class="logo2-cell"></div>
+                        <div class="logo2-cell"></div>
+                        <div class="logo2-cell"></div>
+                        <div class="logo2-cell"></div>
+                        <div class="logo2-cell center"></div>
+                        <div class="logo2-cell"></div>
+                        <div class="logo2-cell"></div>
+                        <div class="logo2-cell"></div>
+                        <div class="logo2-cell"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> Calendar-focused apps<br>
+                    <strong>Style:</strong> Geometric, clean
+                </div>
+            </div>
+
+            <!-- Logo 3 -->
+            <div class="logo-card">
+                <h3 class="logo-title">3. Rising Bar Graph</h3>
+                <p class="logo-description">📊⭐ Ascending bars with achievement star</p>
+                <div class="logo-display">
+                    <div class="logo3">
+                        <div class="logo3-bar"></div>
+                        <div class="logo3-bar"></div>
+                        <div class="logo3-bar"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> Progress tracking, analytics<br>
+                    <strong>Style:</strong> Inspirational, dynamic
+                </div>
+            </div>
+
+            <!-- Logo 4 -->
+            <div class="logo-card">
+                <h3 class="logo-title">4. Infinity Loop</h3>
+                <p class="logo-description">∞● Continuous loop with progress indicator</p>
+                <div class="logo-display">
+                    <div class="logo4">
+                        <div class="logo4-infinity">
+                            <div class="logo4-loop-left"></div>
+                            <div class="logo4-loop-right"></div>
+                            <div class="logo4-dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> Habit loops, continuous improvement<br>
+                    <strong>Style:</strong> Elegant, philosophical
+                </div>
+            </div>
+
+            <!-- Logo 5 -->
+            <div class="logo-card">
+                <h3 class="logo-title">5. Stacked Layers</h3>
+                <p class="logo-description">📚↗️ Building blocks with ascending arrow</p>
+                <div class="logo-display">
+                    <div class="logo5">
+                        <div class="logo5-layer"></div>
+                        <div class="logo5-layer"></div>
+                        <div class="logo5-layer"></div>
+                        <div class="logo5-layer"></div>
+                        <div class="logo5-arrow"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #666; font-size: 13px;">
+                    <strong>Best for:</strong> Growth mindset, layer building<br>
+                    <strong>Style:</strong> Growth-oriented, dynamic
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h2>🏆 Top Recommendation</h2>
+            <p>
+                <strong>Logo #1 - Circular Progress Ring</strong> is the most versatile and recognizable design.<br>
+                It works perfectly at all sizes, directly represents habit completion, and aligns with your purple gradient brand.
+            </p>
+            <div class="recommendation">✓ Choose Logo #1 for Maximum Impact</div>
+        </div>
+    </div>
+</body>
+</html>
