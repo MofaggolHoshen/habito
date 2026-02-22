@@ -14,7 +14,7 @@ import { DashboardScreenProps } from '../navigation/types';
 import { useCalendar } from '../context/CalendarContext';
 import { useTasks } from '../context/TasksContext';
 import { useRatings } from '../context/RatingsContext';
-import { Calendar } from '../components/Calendar';
+import { Calendar, AppFooter } from '../components';
 import TaskCompletionChart from '../components/Charts/TaskCompletionChart';
 import WeeklyStatsChart from '../components/Charts/WeeklyStatsChart';
 import MonthlyTrendChart from '../components/Charts/MonthlyTrendChart';
@@ -69,6 +69,9 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
           month={state.currentMonth}
           year={state.currentYear}
         />
+
+        {/* Footer */}
+        <AppFooter />
       </ScrollView>
     </View>
   );
