@@ -2,7 +2,8 @@
  * Components Export Index
  */
 
-export { TaskItem, TaskList } from './Task';
+export { TaskItem, TaskList, ManualTaskInput, TemplateGrid, TemplateCard, TaskPreview } from './Task';
 export { DayRatingSlider } from './Slider';
-export { ScreenHeader, FloatingActionButton } from './Common';
+export { ScreenHeader, FloatingActionButton, DateBadge, ModalHeader } from './Common';
 export { Calendar } from './Calendar';
+export { CreateTemplateModal } from './Modals';
