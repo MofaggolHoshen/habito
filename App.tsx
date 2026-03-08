@@ -8,6 +8,7 @@ import { AppProvider } from './src/context';
 import { RootNavigator } from './src/navigation';
 import { initDatabase } from './src/services/database';
 import { View, Text, ActivityIndicator } from 'react-native';
+import { HabitoLogo } from './src/components';
 
 function App() {
   const [dbReady, setDbReady] = useState(false);
@@ -44,6 +45,7 @@ function App() {
       >
         {dbError ? (
           <>
+            <HabitoLogo size={100} showDot={true} />
             <Text style={{ fontSize: 18, color: 'red', marginBottom: 16 }}>
               Initialization Error
             </Text>
@@ -53,6 +55,7 @@ function App() {
           </>
         ) : (
           <>
+            <HabitoLogo size={100} showDot={true} />
             <ActivityIndicator size="large" color="#667FEA" />
             <Text style={{ marginTop: 16, fontSize: 16, color: '#666' }}>
               Loading Habito...
