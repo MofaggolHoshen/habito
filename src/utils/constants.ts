@@ -4,6 +4,21 @@
 
 // Default Templates
 export const DEFAULT_TEMPLATES = {
+  peace: {
+    id: 'peace',
+    name: 'Peace',
+    icon: '🕋 ️',
+    isDefault: true,
+    tasks: [
+      { description: 'Pray 5 times a day', time: '06:00', icon: '🕌' },
+      { description: 'Recite Quran', time: '08:00', icon: '📖' },
+      { description: 'Hadith/Other Islamic Study', time: '14:30', icon: '🧠' },
+      { description: 'Charity/Good Deed', time: '18:00', icon: '🎁' },
+      { description: 'I tried not to lie', time: '21:00', icon: '💖' },
+      { description: 'Ask for forgiveness 100 times', time: '21:30', icon: '🤲' },
+      { description: 'Recite Durood 100 times.', time: '22:00', icon: '📿' },
+    ],
+  },
   daily: {
     id: 'daily',
     name: 'Daily Routine',

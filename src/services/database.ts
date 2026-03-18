@@ -33,12 +33,10 @@ export async function initDatabase(): Promise<void> {
     // Create tables
     await createTables();
 
+    // Ensure default templates exist before contexts read them
+    await loadDefaultTemplates();
+
     console.log('[DB] Database initialization complete');
-    
-    // Load default templates asynchronously (non-blocking)
-    loadDefaultTemplates().catch((error) => {
-      console.error('[DB] Failed to load default templates:', error);
-    });
   } catch (error) {
     console.error('[DB] Failed to initialize database:', error);
     throw error;
@@ -118,34 +116,33 @@ async function loadDefaultTemplates(): Promise<void> {
   if (!db) throw new Error('Database not initialized');
 
   try {
-    // Check if default templates already exist
-    const result = await db.executeSql(
-      'SELECT COUNT(*) as count FROM templates WHERE isDefault = 1'
-    );
+    console.log('[DB] Ensuring default templates exist...');
 
-    const count = result[0].rows.item(0).count;
+    const templates = Object.values(DEFAULT_TEMPLATES);
+    let insertedCount = 0;
 
-    if (count === 0) {
-      console.log('[DB] Loading default templates...');
+    for (const template of templates) {
+      const now = new Date().toISOString();
+      const result = await db.executeSql(
+        `INSERT OR IGNORE INTO templates (id, name, icon, isDefault, tasks, createdAt, updatedAt)
+         VALUES (?, ?, ?, 1, ?, ?, ?)`,
+        [
+          template.id,
+          template.name,
+          template.icon,
+          JSON.stringify(template.tasks),
+          now,
+          now,
+        ]
+      );
 
-      // Insert default templates - convert object to array of values
-      const templates = Object.values(DEFAULT_TEMPLATES);
-      for (const template of templates) {
-        await db.executeSql(
-          `INSERT INTO templates (id, name, icon, isDefault, tasks, createdAt, updatedAt)
-           VALUES (?, ?, ?, 1, ?, ?, ?)`,
-          [
-            template.id,
-            template.name,
-            template.icon,
-            JSON.stringify(template.tasks),
-            new Date().toISOString(),
-            new Date().toISOString(),
-          ]
-        );
-      }
+      insertedCount += result[0].rowsAffected || 0;
+    }
 
-      console.log('[DB] Default templates loaded successfully');
+    if (insertedCount > 0) {
+      console.log(`[DB] Added ${insertedCount} missing default templates`);
+    } else {
+      console.log('[DB] Default templates already present');
     }
   } catch (error) {
     console.error('[DB] Failed to load default templates:', error);
