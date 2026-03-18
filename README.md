@@ -72,7 +72,15 @@ A mobile-first React Native application designed to help you track daily habits,
 
 ---
 
-## 🚀 Quick Start
+## � Screenshots
+
+| Dashboard / Calendar | Tasks View | Add Task |
+|:---:|:---:|:---:|
+| ![Calendar View](docs/pics/calendet-view.png) | ![Task View](docs/pics/task-view.png) | ![Add Task View](docs/pics/add-task-view.png) |
+
+---
+
+## �🚀 Quick Start
 
 ### Prerequisites
 
